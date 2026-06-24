@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aprenda a construir conexões reais que abrem portas e transformam sua trajetória profissional." />
+  <title>[Título do Livro] — Networking que Transforma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       HERO SECTION
+  ════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-inner">
+
+      <div class="hero-text">
+        <span class="badge">Em breve</span>
+        <h1 class="hero-title">
+          O Sucesso Começa<br>
+          <em class="gold">nas Conexões Certas</em>
+        </h1>
+        <p class="hero-subtitle">
+          Descubra como construir relacionamentos estratégicos que abrem portas,
+          geram oportunidades reais e fortalecem sua trajetória — pessoal e profissional.
+        </p>
+        <a href="#form" class="btn-primary scroll-to-form">Quero ser avisado do lançamento</a>
+      </div>
+
+      <div class="hero-form-wrapper" id="form">
+        <div class="form-card">
+          <p class="form-eyebrow">Entre para a lista de interessados</p>
+          <h2 class="form-title">Receba novidades em primeira mão</h2>
+
+          <!--
+            ═══════════════════════════════════════
+            INTEGRAÇÃO DO FORMULÁRIO
+
+            Opção 1 — Formspree:
+              Adicione na tag <form> abaixo:
+              action="https://formspree.io/f/SEU_ID_AQUI" method="POST"
+              Remova o atributo onsubmit.
+
+            Opção 2 — Netlify Forms:
+              Adicione na tag <form> abaixo:
+              data-netlify="true" name="leads"
+              Adicione dentro do form: <input type="hidden" name="form-name" value="leads">
+              Mude o action para "/" e method para "POST".
+
+            Opção 3 — Manter simulação (padrão):
+              Não mude nada. O script.js simula o envio com sucesso.
+            ═══════════════════════════════════════
+          -->
+          <form id="lead-form" class="lead-form" novalidate>
+
+            <div class="form-group">
+              <label for="name" class="sr-only">Nome completo</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Seu nome completo"
+                autocomplete="name"
+                required
+              />
+              <span class="field-error" id="name-error" role="alert"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="sr-only">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Seu melhor e-mail"
+                autocomplete="email"
+                required
+              />
+              <span class="field-error" id="email-error" role="alert"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="whatsapp" class="sr-only">WhatsApp</label>
+              <input
+                type="tel"
+                id="whatsapp"
+                name="whatsapp"
+                placeholder="WhatsApp com DDD — (11) 99999-9999"
+                autocomplete="tel"
+                maxlength="15"
+                required
+              />
+              <span class="field-error" id="whatsapp-error" role="alert"></span>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submit-btn">
+              <span class="btn-text">Quero entrar na lista</span>
+              <span class="btn-loading" hidden>Enviando…</span>
+            </button>
+
+          </form>
+
+          <!-- Mensagem de sucesso — exibida após envio -->
+          <div class="success-message" id="success-message" hidden>
+            <div class="success-icon" aria-hidden="true">✓</div>
+            <h3>Você está na lista!</h3>
+            <p>
+              Obrigado! Assim que o livro estiver disponível,
+              você será um dos primeiros a saber.
+            </p>
+          </div>
+
+          <p class="form-note">Sem spam. Seus dados ficam seguros.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       SOBRE O LIVRO
+  ════════════════════════════════════════ -->
+  <section class="section section-about" id="sobre">
+    <div class="container">
+
+      <div class="section-header">
+        <span class="section-tag">Sobre o livro</span>
+        <h2 class="section-title">
+          Networking não é troca de cartões.<br>
+          <span class="gold">É construção de legado.</span>
+        </h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            Em um mundo cada vez mais conectado, quem sabe <strong>cultivar relacionamentos
+            com autenticidade</strong> sai na frente — não por sorte, mas por estratégia.
+          </p>
+          <p>
+            Este livro nasce de décadas de experiência construindo pontes entre pessoas,
+            mercados e oportunidades. Reúne <strong>princípios práticos, histórias reais
+            e métodos comprovados</strong> para quem quer transformar conexões em resultados concretos.
+          </p>
+          <p>
+            Você vai aprender que networking não é sobre o que você pede —
+            é sobre o valor que você entrega e a presença que constrói ao longo do tempo.
+          </p>
+        </div>
+        <div class="about-highlights reveal">
+          <div class="highlight-item">
+            <span class="highlight-num gold">01</span>
+            <span>Método prático, aplicável imediatamente</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-num gold">02</span>
+            <span>Linguagem acessível e direta ao ponto</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-num gold">03</span>
+            <span>Cases e histórias do mundo real</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-num gold">04</span>
+            <span>Para todos os estágios de carreira</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       PARA QUEM É
+  ════════════════════════════════════════ -->
+  <section class="section section-who" id="para-quem">
+    <div class="container">
+
+      <div class="section-header">
+        <span class="section-tag">Para quem é</span>
+        <h2 class="section-title">Este livro foi escrito<br>para você</h2>
+      </div>
+
+      <div class="who-grid">
+
+        <div class="who-card reveal">
+          <div class="who-icon" aria-hidden="true">💼</div>
+          <h3>Profissionais em crescimento</h3>
+          <p>Que querem acelerar a carreira e abrir portas por meio de relacionamentos estratégicos.</p>
+        </div>
+
+        <div class="who-card reveal">
+          <div class="who-icon" aria-hidden="true">🚀</div>
+          <h3>Empreendedores</h3>
+          <p>Que sabem que o próximo cliente, parceiro ou investidor pode estar na próxima conversa.</p>
+        </div>
+
+        <div class="who-card reveal">
+          <div class="who-icon" aria-hidden="true">🎯</div>
+          <h3>Líderes e gestores</h3>
+          <p>Que precisam influenciar, inspirar e construir times com base em confiança mútua.</p>
+        </div>
+
+        <div class="who-card reveal">
+          <div class="who-icon" aria-hidden="true">📈</div>
+          <h3>Profissionais de vendas</h3>
+          <p>Que entendem que relacionamento é a melhor estratégia de vendas de longo prazo.</p>
+        </div>
+
+        <div class="who-card reveal">
+          <div class="who-icon" aria-hidden="true">🎓</div>
+          <h3>Estudantes e jovens</h3>
+          <p>Que querem começar com o pé direito e construir uma rede sólida desde o início.</p>
+        </div>
+
+        <div class="who-card reveal">
+          <div class="who-icon" aria-hidden="true">🌐</div>
+          <h3>Quem quer crescer</h3>
+          <p>Qualquer pessoa que acredita que as melhores oportunidades chegam pelas pessoas certas.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       O QUE VOCÊ VAI APRENDER
+  ════════════════════════════════════════ -->
+  <section class="section section-learn" id="aprender">
+    <div class="container">
+
+      <div class="section-header">
+        <span class="section-tag">O que você vai aprender</span>
+        <h2 class="section-title">Conhecimento que você<br>aplica amanhã</h2>
+      </div>
+
+      <div class="learn-grid">
+
+        <div class="learn-item reveal">
+          <div class="learn-dot" aria-hidden="true"></div>
+          <div class="learn-body">
+            <h3>Como iniciar conversas com confiança</h3>
+            <p>Técnicas para quebrar o gelo e criar conexões genuínas em qualquer ambiente — presencial ou digital.</p>
+          </div>
+        </div>
+
+        <div class="learn-item reveal">
+          <div class="learn-dot" aria-hidden="true"></div>
+          <div class="learn-body">
+            <h3>A arte de manter relacionamentos vivos</h3>
+            <p>Estratégias simples para nutrir sua rede sem parecer oportunista ou forçado.</p>
+          </div>
+        </div>
+
+        <div class="learn-item reveal">
+          <div class="learn-dot" aria-hidden="true"></div>
+          <div class="learn-body">
+            <h3>Como agregar valor antes de pedir algo</h3>
+            <p>O princípio fundamental que transforma contatos superficiais em aliados de longo prazo.</p>
+          </div>
+        </div>
+
+        <div class="learn-item reveal">
+          <div class="learn-dot" aria-hidden="true"></div>
+          <div class="learn-body">
+            <h3>Presença digital e LinkedIn estratégico</h3>
+            <p>Como se posicionar online e atrair as pessoas certas para a sua rede.</p>
+          </div>
+        </div>
+
+        <div class="learn-item reveal">
+          <div class="learn-dot" aria-hidden="true"></div>
+          <div class="learn-body">
+            <h3>Como construir autoridade na sua área</h3>
+            <p>Caminhos para ser reconhecido e lembrado como referência no seu mercado.</p>
+          </div>
+        </div>
+
+        <div class="learn-item reveal">
+          <div class="learn-dot" aria-hidden="true"></div>
+          <div class="learn-body">
+            <h3>Transformar conexões em oportunidades reais</h3>
+            <p>O processo para converter sua rede em resultados: negócios, parcerias, emprego e muito mais.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       SOBRE O AUTOR
+  ════════════════════════════════════════ -->
+  <section class="section section-author" id="autor">
+    <div class="container">
+      <div class="author-wrapper reveal">
+
+        <!--
+          FOTO DO AUTOR:
+          Descomente a tag <img> abaixo e apague o <div class="author-placeholder">.
+          Coloque a foto do seu pai na pasta img/ com o nome autor.jpg (ou ajuste o src).
+          Recomendação: imagem quadrada ou vertical, mínimo 400×500 px.
+        -->
+        <div class="author-photo">
+          <!-- <img src="img/autor.jpg" alt="Foto de [Nome do Autor]" /> -->
+          <div class="author-placeholder" aria-hidden="true">
+            <span>Foto<br>do Autor</span>
+          </div>
+        </div>
+
+        <div class="author-content">
+          <span class="section-tag">Sobre o autor</span>
+
+          <!--
+            DADOS DO AUTOR:
+            Substitua os campos entre colchetes pelos dados reais do seu pai:
+            [Nome do Autor]   → nome completo
+            [cargo/atuação]   → ex: "Consultor empresarial e palestrante"
+            [X]               → anos de experiência
+            [área de atuação] → ex: "gestão e desenvolvimento de negócios"
+          -->
+          <h2 class="author-name">[Nome do Autor]</h2>
+          <p class="author-role">[Cargo, profissão ou especialidade]</p>
+
+          <p>
+            Com mais de <strong>[X] anos de experiência</strong> em [área de atuação],
+            [Nome do Autor] construiu ao longo da carreira uma das redes de relacionamento
+            mais sólidas do setor.
+          </p>
+          <p>
+            Reconhecido por sua capacidade de conectar pessoas, ideias e oportunidades,
+            ele acredita que o maior ativo de qualquer profissional não é o currículo —
+            é a confiança que constrói ao longo do tempo.
+          </p>
+          <p>
+            Neste livro, compartilha pela primeira vez os princípios e práticas que nortearam
+            sua trajetória e transformaram conexões em resultados extraordinários.
+          </p>
+
+          <!--
+            REDES SOCIAIS (opcional):
+            Descomente o bloco abaixo e preencha os links.
+          -->
+          <!--
+          <div class="author-social">
+            <a href="https://linkedin.com/in/PERFIL-AQUI" target="_blank" rel="noopener noreferrer">
+              LinkedIn
+            </a>
+            <a href="https://instagram.com/PERFIL-AQUI" target="_blank" rel="noopener noreferrer">
+              Instagram
+            </a>
+          </div>
+          -->
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       CTA FINAL
+  ════════════════════════════════════════ -->
+  <section class="section section-cta" id="cta-final">
+    <div class="container">
+      <div class="cta-box reveal">
+        <span class="section-tag">Não fique de fora</span>
+        <h2 class="cta-title">
+          Seja o primeiro a saber<br>
+          quando o livro chegar
+        </h2>
+        <p class="cta-sub">
+          Cadastre-se gratuitamente e receba novidades,
+          trechos exclusivos e a data de lançamento antes de todo mundo.
+        </p>
+        <a href="#form" class="btn-primary scroll-to-form">Quero entrar na lista agora</a>
+        <p class="cta-note">Sem spam. Você pode cancelar quando quiser.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <!-- Substitua [Nome do Autor] pelo nome real -->
+      <p>&copy; <span id="footer-year"></span> [Nome do Autor]. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
