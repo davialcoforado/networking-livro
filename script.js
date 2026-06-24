@@ -1,17 +1,12 @@
 /* ═══════════════════════════════════════════════════════════
-   CONFIGURAÇÃO
-   ─────────────────────────────────────────────────────────
-   Para integrar com um serviço real, edite a função
-   submitToService() abaixo e ajuste FORM_ACTION.
+   LANDING PAGE — script.js
+   As credenciais ficam em config.js (carregado antes deste).
 ═══════════════════════════════════════════════════════════ */
 
-// ── Formspree: troque pela sua URL de endpoint
-//    Exemplo: "https://formspree.io/f/abcde123"
-const FORMSPREE_URL = "";
-
-// ── Netlify Forms: defina como true e adicione
-//    data-netlify="true" ao elemento <form> no HTML
-const USE_NETLIFY = false;
+// Inicializa Supabase assim que o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof initSupabase === 'function') initSupabase();
+});
 
 
 /* ═══════════════════════════════════════════════════════════
@@ -121,46 +116,35 @@ function validateForm(name, email, whatsapp) {
 ═══════════════════════════════════════════════════════════ */
 
 /**
- * submitToService — ponto de integração com backend.
- *
- * Opção A: Formspree
- *   Preencha FORMSPREE_URL no topo deste arquivo.
- *   O fetch abaixo já usa essa URL automaticamente.
- *
- * Opção B: Netlify Forms
- *   Defina USE_NETLIFY = true no topo.
- *   Adicione data-netlify="true" e name="leads" no <form>.
- *   Adicione <input type="hidden" name="form-name" value="leads">
- *   O Netlify intercepta o POST automaticamente.
- *
- * Opção C: API própria / outro serviço
- *   Substitua o corpo desta função pela sua lógica.
- *   Ela deve retornar uma Promise<{ok: boolean}>.
+ * submitToService — envia para Formspree (e-mail) + Supabase (banco).
+ * As credenciais ficam em config.js.
+ * Se ainda não configuradas, simula o envio para testes locais.
  */
 function submitToService(data) {
+  var formspreeConfigured = typeof FORMSPREE_ID !== 'undefined' && FORMSPREE_ID !== 'XXXXXXXX';
 
-  // ── Formspree
-  if (FORMSPREE_URL) {
+  // Salva no Supabase em paralelo (silencioso)
+  if (typeof saveLead === 'function') {
+    saveLead({
+      name:     data.name,
+      email:    data.email,
+      whatsapp: data.whatsapp,
+      source:   'landing'
+    });
+  }
+
+  // Envia ao Formspree para notificação por e-mail
+  if (formspreeConfigured) {
     return fetch(FORMSPREE_URL, {
-      method: 'POST',
+      method:  'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(data)
+      body:    JSON.stringify(data)
     }).then(function (res) { return { ok: res.ok }; });
   }
 
-  // ── Netlify Forms (handled natively — apenas simulamos aqui)
-  if (USE_NETLIFY) {
-    var body = new URLSearchParams(Object.assign({ 'form-name': 'leads' }, data));
-    return fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: body.toString()
-    }).then(function (res) { return { ok: res.ok }; });
-  }
-
-  // ── Simulação (padrão enquanto não há integração)
+  // Simulação local (enquanto as credenciais não estiverem preenchidas)
   return new Promise(function (resolve) {
-    setTimeout(function () { resolve({ ok: true }); }, 1200);
+    setTimeout(function () { resolve({ ok: true }); }, 900);
   });
 }
 

@@ -7,6 +7,9 @@
    Eixo Y = Postura Relacional (Bloco B)
    Escala: 0–30  |  Limiar: 15
    Quadrantes: Estratégico/Generoso · Relacional/Ingênuo · Utilitarista · Isolado
+
+   Integrações (credenciais em config.js):
+   - Supabase: salva lead + resultados completos ao concluir o quiz
 ══════════════════════════════════════════════════════ */
 
 /* ─── PERGUNTAS ─── */
@@ -38,6 +41,7 @@ const THRESHOLD = 15;
 
 const Q = {
   sg: {
+    key: 'sg',
     tag: '♛ A Atitude KING',
     name: 'Estratégico / Generoso',
     label: 'O perfil mais completo de networking',
@@ -45,6 +49,7 @@ const Q = {
     color: '#c9a84c'
   },
   ri: {
+    key: 'ri',
     tag: '♡ Relacional',
     name: 'Relacional / Ingênuo',
     label: 'Generoso, mas pouco intencional',
@@ -52,6 +57,7 @@ const Q = {
     color: '#64b5f6'
   },
   ut: {
+    key: 'ut',
     tag: '♟ Estratégico',
     name: 'Utilitarista',
     label: 'Intencional, mas pouco generoso',
@@ -59,6 +65,7 @@ const Q = {
     color: '#81c784'
   },
   is: {
+    key: 'is',
     tag: '◎ Em Desenvolvimento',
     name: 'Isolado',
     label: 'Networking ainda em construção',
@@ -80,6 +87,7 @@ const state = {
    INIT
 ══════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
+  if (typeof initSupabase === 'function') initSupabase();
   renderQuestions();
   bindStep1();
   bindStep2();
@@ -202,6 +210,23 @@ function bindStep2() {
       b: answers.b.reduce((s, v) => s + v, 0)
     };
     state.quadrant = getQuadrant(state.scores.a, state.scores.b);
+
+    // Salva no Supabase em segundo plano (não bloqueia a UI)
+    if (typeof saveLead === 'function') {
+      saveLead({
+        name:                   state.user.name,
+        email:                  state.user.email,
+        country:                state.user.country || null,
+        state:                  state.user.state   || null,
+        zip:                    state.user.zip     || null,
+        source:                 'assessment',
+        quadrant_key:           state.quadrant.key  || null,
+        quadrant_name:          state.quadrant.name,
+        score_intencionalidade: state.scores.a,
+        score_postura:          state.scores.b,
+        answers:                { a: answers.a, b: answers.b }
+      });
+    }
 
     buildResults();
     goToStep(3);
