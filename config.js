@@ -63,8 +63,8 @@ const FORMSPREE_URL = `https://formspree.io/f/${FORMSPREE_ID}`;
 
 // ── Supabase ──────────────────────────────────────────────────
 // Substitua pelos valores do seu projeto em supabase.com → Settings → API
-const SUPABASE_URL      = 'https://XXXXXXXXXXXX.supabase.co';
-const SUPABASE_ANON_KEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+const SUPABASE_URL      = 'https://vbzcrcpsdawbacbeproq.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_HTzyDug4QlTfMjFiamITHA_zbPe1TdY';
 
 // ─────────────────────────────────────────────────────────────
 // Inicialização do cliente — não edite abaixo desta linha
