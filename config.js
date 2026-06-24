@@ -58,7 +58,7 @@
 
 // ── Formspree ─────────────────────────────────────────────────
 // Substitua "XXXXXXXX" pelo ID do seu form no Formspree
-const FORMSPREE_ID  = 'XXXXXXXX';
+const FORMSPREE_ID  = 'mqevenjw';
 const FORMSPREE_URL = `https://formspree.io/f/${FORMSPREE_ID}`;
 
 // ── Supabase ──────────────────────────────────────────────────
