@@ -78,10 +78,10 @@ function validateForm(name, email, whatsapp) {
   }
 
   if (!email.trim()) {
-    showError('email', 'Por favor, informe seu e-mail.');
+    showError('email', 'Por favor, informe seu email.');
     valid = false;
   } else if (!validateEmail(email)) {
-    showError('email', 'E-mail inválido. Verifique e tente novamente.');
+    showError('email', 'Email inválido. Verifique e tente novamente.');
     valid = false;
   }
 

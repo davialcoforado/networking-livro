@@ -27,7 +27,7 @@ const QB = [
   'Compartilho informações, contatos ou oportunidades sem esperar retorno',
   'Ajudo pessoas mesmo quando não gera benefício direto',
   'Evito procurar pessoas apenas quando tenho uma necessidade',
-  'Preocupo-me com o impacto das minhas ações na confiança',
+  'Eu me preocupo com o impacto das minhas ações na confiança',
   'Sou lembrado como alguém que agrega valor'
 ];
 
@@ -45,7 +45,7 @@ const Q = {
     tag: '♛ A Atitude KING',
     name: 'Estratégico / Generoso',
     label: 'O perfil mais completo de networking',
-    desc: 'Você age com intenção e gera valor genuíno para sua rede. Planeja conscientemente seus relacionamentos e, ao mesmo tempo, impacta positivamente quem está ao seu redor. Isso é a Atitude King — o perfil mais completo e poderoso do networking.',
+    desc: 'Você age com intenção e gera valor genuíno para sua rede. Planeja conscientemente seus relacionamentos e, ao mesmo tempo, impacta positivamente quem está ao seu redor. Isso é a Atitude King, o perfil mais completo e poderoso do networking.',
     color: '#c9a84c'
   },
   ri: {
@@ -69,7 +69,7 @@ const Q = {
     tag: '◎ Em Desenvolvimento',
     name: 'Isolado',
     label: 'Networking ainda em construção',
-    desc: 'Você está no início da jornada do networking. Há um enorme espaço para crescimento nos dois eixos — intencionalidade e postura relacional. Este livro foi escrito exatamente para quem quer construir uma rede sólida e autêntica.',
+    desc: 'Você está no início da jornada do networking. Há um enorme espaço para crescimento nos dois eixos: intencionalidade e postura relacional. Este livro foi escrito exatamente para quem quer construir uma rede sólida e autêntica.',
     color: '#9e9e9e'
   }
 };
@@ -168,7 +168,7 @@ function validateReg() {
   const lgpd  = document.getElementById('f-lgpd').checked;
 
   setErr('e-name', !name ? 'Por favor, informe seu nome.' : '');
-  setErr('e-email', !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'Informe um e-mail válido.' : '');
+  setErr('e-email', !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'Informe um email válido.' : '');
   setErr('e-lgpd', !lgpd ? 'Você precisa aceitar os termos para continuar.' : '');
 
   return name && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && lgpd;
@@ -593,7 +593,7 @@ function drawCertificate(canvas, user, qd, scores) {
 
   ctx.font = `bold 14px 'Playfair Display', Georgia, serif`;
   ctx.fillStyle = '#c9a84c';
-  ctx.fillText('"Networking is King — A Atitude King"', W / 2, 436);
+  ctx.fillText('"Networking is King, A Atitude King"', W / 2, 436);
 
   ctx.font = 'italic 13px Georgia, serif';
   ctx.fillStyle = 'rgba(255,255,255,0.42)';
@@ -665,7 +665,7 @@ function dlAnswers() {
   const html = `<!DOCTYPE html>
 <html lang="pt-BR"><head>
 <meta charset="UTF-8">
-<title>Diagnóstico NIK — ${user.name}</title>
+<title>Diagnóstico NIK, ${user.name}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;600&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -692,7 +692,7 @@ td.s span{font-size:10px;color:#aaa;display:block;margin-top:1px}
 </style></head><body>
 <div class="hd">
   <div class="crown">♛</div>
-  <h1>Diagnóstico de Networking — O Estilo K.I.N.G.</h1>
+  <h1>Diagnóstico de Networking, O Estilo K.I.N.G.</h1>
   <p class="sub">Networking is KING · Cláudio Alcoforado · ISBN 978-65-01-90453-5</p>
 </div>
 <div class="prof">
@@ -703,9 +703,9 @@ td.s span{font-size:10px;color:#aaa;display:block;margin-top:1px}
     <div><div class="scl">Postura Relacional</div><div class="scv">${scores.b}<small style="font-size:11px;color:#bbb">/30</small></div></div>
   </div>
 </div>
-<div class="bt">Bloco A — Intencionalidade do Relacionamento</div>
+<div class="bt">Bloco A: Intencionalidade do Relacionamento</div>
 <table><tbody>${rowsA}</tbody></table>
-<div class="bt">Bloco B — Postura Relacional</div>
+<div class="bt">Bloco B: Postura Relacional</div>
 <table><tbody>${rowsB}</tbody></table>
 <div class="ft">
   <p>networkingisking.net · ${new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})}</p>
