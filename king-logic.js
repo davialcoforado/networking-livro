@@ -48,6 +48,54 @@
     return String(name || 'usuario').trim().split(/\s+/)[0] || 'usuario';
   }
 
+  function buildLandingLead(data) {
+    return {
+      name: data.name,
+      email: data.email,
+      whatsapp: data.whatsapp,
+      source: 'landing'
+    };
+  }
+
+  function submitLandingLead(data, deps) {
+    deps = deps || {};
+    var formspreeConfigured = deps.formspreeId && deps.formspreeId !== 'XXXXXXXX';
+    var saveLead = deps.saveLead;
+    var fetchFn = deps.fetchFn;
+
+    if (typeof saveLead === 'function') {
+      saveLead(buildLandingLead(data));
+    }
+
+    if (formspreeConfigured && typeof fetchFn === 'function') {
+      return fetchFn(deps.formspreeUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (res) {
+        return { ok: res.ok };
+      });
+    }
+
+    return Promise.resolve({ ok: true });
+  }
+
+  function buildAssessmentLead(user, quadrant, scores, answers) {
+    return {
+      name: user.name,
+      email: user.email,
+      country: user.country || null,
+      state: user.state || null,
+      zip: user.zip || null,
+      source: 'assessment',
+      quadrant_key: quadrant.key || null,
+      quadrant_name: quadrant.name,
+      score_intencionalidade: scores.a,
+      score_postura: scores.b,
+      answers: { a: answers.a, b: answers.b }
+    };
+  }
+
   return {
     THRESHOLD: THRESHOLD,
     validateEmail: validateEmail,
@@ -55,6 +103,9 @@
     formatWhatsapp: formatWhatsapp,
     sumAnswers: sumAnswers,
     getQuadrantKey: getQuadrantKey,
-    firstName: firstName
+    firstName: firstName,
+    buildLandingLead: buildLandingLead,
+    submitLandingLead: submitLandingLead,
+    buildAssessmentLead: buildAssessmentLead
   };
 });

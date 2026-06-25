@@ -213,19 +213,7 @@ function bindStep2() {
 
     // Salva no Supabase em segundo plano (não bloqueia a UI)
     if (typeof saveLead === 'function') {
-      saveLead({
-        name:                   state.user.name,
-        email:                  state.user.email,
-        country:                state.user.country || null,
-        state:                  state.user.state   || null,
-        zip:                    state.user.zip     || null,
-        source:                 'assessment',
-        quadrant_key:           state.quadrant.key  || null,
-        quadrant_name:          state.quadrant.name,
-        score_intencionalidade: state.scores.a,
-        score_postura:          state.scores.b,
-        answers:                { a: answers.a, b: answers.b }
-      });
+      saveLead(KingLogic.buildAssessmentLead(state.user, state.quadrant, state.scores, answers));
     }
 
     buildResults();
@@ -483,12 +471,12 @@ function bindStep4() {
   document.getElementById('btn-dl-answers').addEventListener('click', dlAnswers);
 
   document.getElementById('btn-share-wpp').addEventListener('click', () => {
-    const txt = `Fiz o diagnóstico do livro *Networking is KING* de Cláudio Alcoforado e meu perfil é *${state.quadrant.name}*! 🏆\n\nFaça o seu: https://networkingisking.net/assessment.html`;
+    const txt = `Fiz o diagnóstico do livro *Networking is KING* de Cláudio Alcoforado e meu perfil é *${state.quadrant.name}*! 🏆\n\nFaça o seu: https://networkingisking.net/assessment/`;
     window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
   });
 
   document.getElementById('btn-share-li').addEventListener('click', () => {
-    const url = encodeURIComponent('https://networkingisking.net/assessment.html');
+    const url = encodeURIComponent('https://networkingisking.net/assessment/');
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
   });
 

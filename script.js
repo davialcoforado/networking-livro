@@ -115,30 +115,11 @@ function validateForm(name, email, whatsapp) {
  * Se ainda não configuradas, simula o envio para testes locais.
  */
 function submitToService(data) {
-  var formspreeConfigured = typeof FORMSPREE_ID !== 'undefined' && FORMSPREE_ID !== 'XXXXXXXX';
-
-  // Salva no Supabase em paralelo (silencioso)
-  if (typeof saveLead === 'function') {
-    saveLead({
-      name:     data.name,
-      email:    data.email,
-      whatsapp: data.whatsapp,
-      source:   'landing'
-    });
-  }
-
-  // Envia ao Formspree para notificação por e-mail
-  if (formspreeConfigured) {
-    return fetch(FORMSPREE_URL, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body:    JSON.stringify(data)
-    }).then(function (res) { return { ok: res.ok }; });
-  }
-
-  // Simulação local (enquanto as credenciais não estiverem preenchidas)
-  return new Promise(function (resolve) {
-    setTimeout(function () { resolve({ ok: true }); }, 900);
+  return KingLogic.submitLandingLead(data, {
+    formspreeId: typeof FORMSPREE_ID !== 'undefined' ? FORMSPREE_ID : null,
+    formspreeUrl: typeof FORMSPREE_URL !== 'undefined' ? FORMSPREE_URL : null,
+    saveLead: typeof saveLead === 'function' ? saveLead : null,
+    fetchFn: typeof fetch === 'function' ? fetch.bind(window) : null
   });
 }
 
