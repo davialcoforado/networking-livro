@@ -35,13 +35,7 @@ var whatsappInput = document.getElementById('whatsapp');
 
 if (whatsappInput) {
   whatsappInput.addEventListener('input', function () {
-    var v = this.value.replace(/\D/g, '').slice(0, 11);
-    var out = '';
-    if (v.length >= 1)  out = '(' + v.slice(0, 2);
-    if (v.length >= 3)  out += ') ' + v.slice(2, 7);
-    if (v.length >= 8)  out += '-' + v.slice(7, 11);
-    else if (v.length > 2) out += v.slice(2);
-    this.value = out;
+    this.value = KingLogic.formatWhatsapp(this.value);
   });
 }
 
@@ -50,11 +44,11 @@ if (whatsappInput) {
    VALIDAÇÃO DO FORMULÁRIO
 ═══════════════════════════════════════════════════════════ */
 function validateEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  return KingLogic.validateEmail(email);
 }
 
 function validatePhone(phone) {
-  return phone.replace(/\D/g, '').length >= 10;
+  return KingLogic.validatePhone(phone);
 }
 
 function showError(fieldId, message) {

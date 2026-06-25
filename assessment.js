@@ -206,8 +206,8 @@ function bindStep2() {
     document.getElementById('quiz-err').textContent = '';
     state.answers = answers;
     state.scores  = {
-      a: answers.a.reduce((s, v) => s + v, 0),
-      b: answers.b.reduce((s, v) => s + v, 0)
+      a: KingLogic.sumAnswers(answers.a),
+      b: KingLogic.sumAnswers(answers.b)
     };
     state.quadrant = getQuadrant(state.scores.a, state.scores.b);
 
@@ -253,10 +253,7 @@ function collectAnswers() {
 }
 
 function getQuadrant(a, b) {
-  if (a >= THRESHOLD && b >= THRESHOLD) return Q.sg;
-  if (a <  THRESHOLD && b >= THRESHOLD) return Q.ri;
-  if (a >= THRESHOLD && b <  THRESHOLD) return Q.ut;
-  return Q.is;
+  return Q[KingLogic.getQuadrantKey(a, b)];
 }
 
 /* ══════════════════════════════════
@@ -656,7 +653,7 @@ function dlCanvas(canvas, filename) {
 }
 
 function firstName() {
-  return (state.user.name || 'usuario').split(' ')[0];
+  return KingLogic.firstName(state.user.name);
 }
 
 /* Gera página de respostas e abre para impressão/PDF */
