@@ -5,7 +5,7 @@
     root.KingLogic = factory();
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
-  var THRESHOLD = 15;
+  var THRESHOLD = 18;
 
   function validateEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || ''));

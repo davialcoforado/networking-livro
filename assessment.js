@@ -5,7 +5,7 @@
    Quadrante baseado no livro de Cláudio Alcoforado.
    Eixo X = Intencionalidade do Relacionamento (Bloco A)
    Eixo Y = Postura Relacional (Bloco B)
-   Escala: 0–30  |  Limiar: 15
+   Escala: 6–30  |  Limiar: 18 (Baixa 6–17 / Alta 18–30)
    Quadrantes: Estratégico/Generoso · Relacional/Ingênuo · Utilitarista · Isolado
 
    Integrações (credenciais em config.js):
@@ -37,7 +37,7 @@ const SCALE_FULL = [
 ];
 
 /* ─── QUADRANTES ─── */
-const THRESHOLD = 15;
+const THRESHOLD = 18;
 
 const Q = {
   sg: {
