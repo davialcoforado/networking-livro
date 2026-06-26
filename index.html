@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Networking is KING. A Atitude King. Gerando Negócios, Empregabilidade, Representações e Parcerias. Livro de Cláudio Alcoforado." />
-  <title>Networking is KING, Cláudio Alcoforado</title>
+  <meta name="description" content="Networking is KING — A Atitude King. Gerando Negócios, Empregabilidade, Representações e Parcerias. Faça seu diagnóstico gratuito de networking. Livro de Cláudio Alcoforado." />
+  <title>Networking is KING — Cláudio Alcoforado</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -13,115 +13,91 @@
 <body>
 
   <!-- ═══════════════════════════════════════
-       HERO SECTION
+       HERO
   ════════════════════════════════════════ -->
-  <section class="hero" id="hero">
+  <section class="hero">
     <div class="hero-bg"></div>
     <div class="container hero-inner">
 
+      <div class="hero-book">
+        <img
+          src="img/book-cover.jpg"
+          alt="Capa do livro Networking is KING de Cláudio Alcoforado"
+          class="book-cover-img"
+        />
+      </div>
+
       <div class="hero-text">
-        <span class="badge">Lançamento: 06 de junho de 2026</span>
+        <span class="badge">Cláudio Alcoforado · Networkaholic</span>
         <h1 class="hero-title">
-          <em class="gold">Networking is KING</em>
+          <em class="gold">Networking<br>is KING</em>
         </h1>
-        <p class="hero-subtitle" style="font-style:italic;margin-bottom:8px;">
+        <p class="hero-subtitle" style="font-style:italic;margin-bottom:4px;">
           A Atitude King.
         </p>
         <p class="hero-subtitle">
-          Gerando Negócios, Empregabilidade, Representações e Parcerias.
-          O livro de <strong>Cláudio Alcoforado</strong> que transforma a forma como você constrói conexões reais.
+          Gerando Negócios, Empregabilidade,<br>Representações e Parcerias.
         </p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px;">
-          <a href="#form" class="btn-primary scroll-to-form">Quero ser avisado do lançamento</a>
-          <a href="assessment/" class="btn-secondary-outline" style="display:inline-flex;align-items:center;padding:14px 24px;border:1px solid var(--gold-dark);color:var(--gold);border-radius:8px;font-weight:600;font-size:15px;text-decoration:none;transition:all 0.3s;">♛ Descubra seu Estilo K.I.N.G.</a>
-        </div>
+        <a href="assessment/" class="btn-primary hero-cta">
+          ♛ Fazer meu Diagnóstico K.I.N.G.
+        </a>
+        <p class="hero-cta-note">Gratuito · Leva cerca de 5 minutos</p>
       </div>
 
-      <div class="hero-form-wrapper" id="form">
-        <div class="form-card">
-          <p class="form-eyebrow">Entre para a lista de interessados</p>
-          <h2 class="form-title">Receba novidades em primeira mão</h2>
+    </div>
+  </section>
 
-          <!--
-            ═══════════════════════════════════════
-            INTEGRAÇÃO DO FORMULÁRIO
 
-            Opção 1 — Formspree:
-              Adicione na tag <form> abaixo:
-              action="https://formspree.io/f/SEU_ID_AQUI" method="POST"
-              Remova o atributo onsubmit.
+  <!-- ═══════════════════════════════════════
+       COMO FUNCIONA
+  ════════════════════════════════════════ -->
+  <section class="section section-how" id="como-funciona">
+    <div class="container">
 
-            Opção 2 — Netlify Forms:
-              Adicione na tag <form> abaixo:
-              data-netlify="true" name="leads"
-              Adicione dentro do form: <input type="hidden" name="form-name" value="leads">
-              Mude o action para "/" e method para "POST".
+      <div class="section-header">
+        <span class="section-tag">O Diagnóstico K.I.N.G.</span>
+        <h2 class="section-title">
+          Descubra como você se posiciona<br>
+          <span class="gold">dentro das suas redes</span>
+        </h2>
+      </div>
 
-            Opção 3 — Manter simulação (padrão):
-              Não mude nada. O script.js simula o envio com sucesso.
-            ═══════════════════════════════════════
-          -->
-          <form id="lead-form" class="lead-form" novalidate>
+      <div class="how-steps">
 
-            <div class="form-group">
-              <label for="name" class="sr-only">Nome completo</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Seu nome completo"
-                autocomplete="name"
-                required
-              />
-              <span class="field-error" id="name-error" role="alert"></span>
-            </div>
-
-            <div class="form-group">
-              <label for="email" class="sr-only">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Seu melhor email"
-                autocomplete="email"
-                required
-              />
-              <span class="field-error" id="email-error" role="alert"></span>
-            </div>
-
-            <div class="form-group">
-              <label for="whatsapp" class="sr-only">WhatsApp</label>
-              <input
-                type="tel"
-                id="whatsapp"
-                name="whatsapp"
-                placeholder="WhatsApp com DDD, (11) 99999-9999"
-                autocomplete="tel"
-                maxlength="15"
-                required
-              />
-              <span class="field-error" id="whatsapp-error" role="alert"></span>
-            </div>
-
-            <button type="submit" class="btn-submit" id="submit-btn">
-              <span class="btn-text">Quero entrar na lista</span>
-              <span class="btn-loading" hidden>Enviando…</span>
-            </button>
-
-          </form>
-
-          <!-- Mensagem de sucesso exibida após envio -->
-          <div class="success-message" id="success-message" hidden>
-            <div class="success-icon" aria-hidden="true">✓</div>
-            <h3>Você está na lista!</h3>
-            <p>
-              Obrigado! Assim que o livro estiver disponível,
-              você será um dos primeiros a saber.
-            </p>
-          </div>
-
-          <p class="form-note">Sem spam. Seus dados ficam seguros.</p>
+        <div class="how-step reveal">
+          <div class="how-num gold">01</div>
+          <h3>Cadastro rápido</h3>
+          <p>Nome e email. Seus dados ficam seguros, em conformidade com a LGPD.</p>
         </div>
+
+        <div class="how-arrow" aria-hidden="true">→</div>
+
+        <div class="how-step reveal">
+          <div class="how-num gold">02</div>
+          <h3>Questionário</h3>
+          <p>12 afirmações sobre Intencionalidade e Postura Relacional. Rápido e objetivo.</p>
+        </div>
+
+        <div class="how-arrow" aria-hidden="true">→</div>
+
+        <div class="how-step reveal">
+          <div class="how-num gold">03</div>
+          <h3>Seu Quadrante</h3>
+          <p>O sistema gera seu posicionamento no Quadrante K.I.N.G. automaticamente.</p>
+        </div>
+
+        <div class="how-arrow" aria-hidden="true">→</div>
+
+        <div class="how-step reveal">
+          <div class="how-num gold">04</div>
+          <h3>Certificado e downloads</h3>
+          <p>Emita seu certificado e baixe o diagnóstico completo com gráfico e respostas.</p>
+        </div>
+
+      </div>
+
+      <div style="text-align:center;margin-top:56px;">
+        <a href="assessment/" class="btn-primary">♛ Iniciar meu Diagnóstico</a>
       </div>
 
     </div>
@@ -146,15 +122,14 @@
         <div class="about-text reveal">
           <p>
             Em um mundo cada vez mais conectado, quem sabe <strong>cultivar relacionamentos
-            com autenticidade</strong> sai na frente, não por sorte, mas por estratégia.
+            com autenticidade</strong> sai na frente — não por sorte, mas por estratégia.
           </p>
           <p>
-            Este livro nasce de décadas de experiência construindo pontes entre pessoas,
-            mercados e oportunidades. Reúne <strong>princípios práticos, histórias reais
-            e métodos comprovados</strong> para quem quer transformar conexões em resultados concretos.
+            Este livro reúne <strong>princípios práticos, histórias reais e métodos comprovados</strong>
+            para quem quer transformar conexões em resultados concretos.
           </p>
           <p>
-            Você vai aprender que networking não é sobre o que você pede,
+            Você vai aprender que networking não é sobre o que você pede —
             é sobre o valor que você entrega e a presença que constrói ao longo do tempo.
           </p>
         </div>
@@ -237,72 +212,6 @@
 
 
   <!-- ═══════════════════════════════════════
-       O QUE VOCÊ VAI APRENDER
-  ════════════════════════════════════════ -->
-  <section class="section section-learn" id="aprender">
-    <div class="container">
-
-      <div class="section-header">
-        <span class="section-tag">O que você vai aprender</span>
-        <h2 class="section-title">Conhecimento que você<br>aplica amanhã</h2>
-      </div>
-
-      <div class="learn-grid">
-
-        <div class="learn-item reveal">
-          <div class="learn-dot" aria-hidden="true"></div>
-          <div class="learn-body">
-            <h3>Como iniciar conversas com confiança</h3>
-            <p>Técnicas para quebrar o gelo e criar conexões genuínas em qualquer ambiente, presencial ou digital.</p>
-          </div>
-        </div>
-
-        <div class="learn-item reveal">
-          <div class="learn-dot" aria-hidden="true"></div>
-          <div class="learn-body">
-            <h3>A arte de manter relacionamentos vivos</h3>
-            <p>Estratégias simples para nutrir sua rede sem parecer oportunista ou forçado.</p>
-          </div>
-        </div>
-
-        <div class="learn-item reveal">
-          <div class="learn-dot" aria-hidden="true"></div>
-          <div class="learn-body">
-            <h3>Como agregar valor antes de pedir algo</h3>
-            <p>O princípio fundamental que transforma contatos superficiais em aliados de longo prazo.</p>
-          </div>
-        </div>
-
-        <div class="learn-item reveal">
-          <div class="learn-dot" aria-hidden="true"></div>
-          <div class="learn-body">
-            <h3>Presença digital e LinkedIn estratégico</h3>
-            <p>Como se posicionar online e atrair as pessoas certas para a sua rede.</p>
-          </div>
-        </div>
-
-        <div class="learn-item reveal">
-          <div class="learn-dot" aria-hidden="true"></div>
-          <div class="learn-body">
-            <h3>Como construir autoridade na sua área</h3>
-            <p>Caminhos para ser reconhecido e lembrado como referência no seu mercado.</p>
-          </div>
-        </div>
-
-        <div class="learn-item reveal">
-          <div class="learn-dot" aria-hidden="true"></div>
-          <div class="learn-body">
-            <h3>Transformar conexões em oportunidades reais</h3>
-            <p>O processo para converter sua rede em resultados: negócios, parcerias, emprego e muito mais.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════
        SOBRE O AUTOR
   ════════════════════════════════════════ -->
   <section class="section section-author" id="autor">
@@ -316,14 +225,6 @@
         <div class="author-content">
           <span class="section-tag">Sobre o autor</span>
 
-          <!--
-            DADOS DO AUTOR:
-            Substitua os campos entre colchetes pelos dados reais do seu pai:
-            [Nome do Autor]   → nome completo
-            [cargo/atuação]   → ex: "Consultor empresarial e palestrante"
-            [X]               → anos de experiência
-            [área de atuação] → ex: "gestão e desenvolvimento de negócios"
-          -->
           <h2 class="author-name">Cláudio Alcoforado</h2>
           <p class="author-role">Networkaholic</p>
 
@@ -333,14 +234,14 @@
           </p>
           <p>
             Reconhecido como um verdadeiro <em>Networkaholic</em>, ele acredita que
-            o maior ativo de qualquer profissional não é o currículo,
+            o maior ativo de qualquer profissional não é o currículo —
             é a <strong>confiança que constrói ao longo do tempo</strong>.
           </p>
           <p>
             Em <em>Networking is KING</em>, compartilha os princípios, práticas e a
             Pirâmide KING que transformou conexões em negócios, parcerias e legado.
           </p>
-          <p style="margin-top:16px;font-size:14px;color:var(--text-3);">
+          <p style="margin-top:4px;font-size:14px;color:var(--text-3);">
             ISBN 978-65-01-90453-5
           </p>
 
@@ -359,20 +260,20 @@
   <!-- ═══════════════════════════════════════
        CTA FINAL
   ════════════════════════════════════════ -->
-  <section class="section section-cta" id="cta-final">
+  <section class="section section-cta">
     <div class="container">
       <div class="cta-box reveal">
-        <span class="section-tag">Não fique de fora</span>
+        <span class="section-tag">Gratuito</span>
         <h2 class="cta-title">
-          Seja o primeiro a saber<br>
-          quando o livro chegar
+          Qual é o seu<br>
+          <span class="gold">Estilo K.I.N.G.?</span>
         </h2>
         <p class="cta-sub">
-          Faça seu cadastro gratuitamente e receba novidades,
-          trechos exclusivos e a data de lançamento antes de todo mundo.
+          Responda 12 afirmações e descubra como você se posiciona
+          dentro das suas redes profissionais.
         </p>
-        <a href="#form" class="btn-primary scroll-to-form">Quero entrar na lista agora</a>
-        <p class="cta-note">Sem spam. Você pode cancelar quando quiser.</p>
+        <a href="assessment/" class="btn-primary">♛ Fazer meu Diagnóstico K.I.N.G.</a>
+        <p class="cta-note">Leva cerca de 5 minutos · Seus dados ficam seguros</p>
       </div>
     </div>
   </section>
@@ -383,16 +284,32 @@
   ════════════════════════════════════════ -->
   <footer class="footer">
     <div class="container">
-      <!-- Substitua [Nome do Autor] pelo nome real -->
       <p>&copy; <span id="footer-year"></span> Cláudio Alcoforado · Networking is KING · ISBN 978-65-01-90453-5</p>
-      <p style="margin-top:6px;font-size:13px;"><a href="assessment/">♛ Descubra seu Estilo K.I.N.G.</a></p>
+      <p style="margin-top:6px;font-size:13px;"><a href="assessment/">♛ Fazer meu Diagnóstico K.I.N.G.</a></p>
     </div>
   </footer>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script src="king-logic.js"></script>
-  <script src="config.js"></script>
-  <script src="script.js"></script>
+  <script>
+    // Footer year
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    // Scroll reveal
+    var items = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e, i) {
+          if (e.isIntersecting) {
+            setTimeout(function() { e.target.classList.add('visible'); }, i * 80);
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      items.forEach(function(el) { obs.observe(el); });
+    } else {
+      items.forEach(function(el) { el.classList.add('visible'); });
+    }
+  </script>
+
 </body>
 </html>

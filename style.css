@@ -714,6 +714,102 @@ strong { font-weight: 600; color: var(--text-1); }
 }
 
 /* ═══════════════════════════════════════════
+   HERO — CAPA DO LIVRO
+════════════════════════════════════════════ */
+.hero-book {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeUp 0.9s 0.1s ease both;
+}
+
+.book-cover-img {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 12px;
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.65),
+    0 0 60px rgba(201, 168, 76, 0.14);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.book-cover-img:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 44px 100px rgba(0, 0, 0, 0.72),
+    0 0 80px rgba(201, 168, 76, 0.22);
+}
+
+.hero-cta {
+  margin-top: 8px;
+}
+
+.hero-cta-note {
+  font-size: 0.78rem;
+  color: var(--text-3);
+  margin-top: -12px;
+}
+
+/* ═══════════════════════════════════════════
+   COMO FUNCIONA — 4 PASSOS
+════════════════════════════════════════════ */
+.section-how {
+  background: var(--bg-1);
+}
+
+.how-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.how-step {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  text-align: center;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.how-step:hover {
+  border-color: var(--gold-dark);
+  box-shadow: var(--shadow-gold);
+}
+
+.how-num {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+
+.how-step h3 {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 10px;
+}
+
+.how-step p {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.how-arrow {
+  flex-shrink: 0;
+  padding: 0 8px;
+  margin-top: 52px;
+  font-size: 1.4rem;
+  color: var(--gold-dark);
+  opacity: 0.5;
+}
+
+/* ═══════════════════════════════════════════
    ANIMAÇÕES KEYFRAMES
 ════════════════════════════════════════════ */
 @keyframes fadeDown {
@@ -752,6 +848,19 @@ strong { font-weight: 600; color: var(--text-1); }
 
   .hero-subtitle {
     max-width: 100%;
+  }
+
+  .book-cover-img {
+    max-width: 100%;
+  }
+
+  .how-steps {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .how-arrow {
+    display: none;
   }
 
   .about-grid {
