@@ -370,7 +370,7 @@ a:hover { color: var(--gold-l); }
   text-align: center;
 }
 .likert-opt label .l-lbl {
-  font-size: 8.5px; font-weight: 400; color: var(--text-3);
+  font-size: 8.5px; font-weight: 400; color: var(--text-2);
   line-height: 1.2;
 }
 
