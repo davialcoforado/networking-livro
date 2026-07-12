@@ -477,9 +477,18 @@ function drawChart(canvas, a, b, name) {
    PASSO 4 — CERTIFICADO + DOWNLOADS
 ══════════════════════════════════ */
 function buildCertificate() {
-  const { name } = state.user;
   document.getElementById('cert-fname').textContent = firstName();
   drawCertificate(document.getElementById('cert-canvas'), state.user, state.quadrant, state.scores);
+
+  // Upload em segundo plano — não bloqueia a UI
+  const canvas = document.getElementById('cert-canvas');
+  canvas.toBlob(async (blob) => {
+    const filename = `${firstName().toLowerCase()}-${Math.random().toString(36).slice(2, 9)}.png`;
+    const url = typeof uploadCertificate === 'function'
+      ? await uploadCertificate(blob, filename)
+      : null;
+    if (url) state.certUrl = url;
+  }, 'image/png');
 }
 
 function bindStep4() {
@@ -519,16 +528,26 @@ function bindStep4() {
   });
 
   document.getElementById('btn-share-li').addEventListener('click', () => {
-    const liUrl = 'https://networkingisking.net/assessment/';
-    const texto = `Fiz o Diagnóstico K.I.N.G. do livro "Networking is KING" de Cláudio Alcoforado e meu perfil é ${state.quadrant.name} — ${state.quadrant.label}.\n\nFaça o seu diagnóstico gratuito: ${liUrl}`;
+    const certUrl  = state.certUrl || null;
+    const shareUrl = certUrl || 'https://networkingisking.net/assessment/';
+    const texto    = `Fiz o Diagnóstico K.I.N.G. do livro "Networking is KING" de Cláudio Alcoforado e meu perfil é ${state.quadrant.name} — ${state.quadrant.label}.\n\nFaça o seu diagnóstico gratuito: https://networkingisking.net/assessment/`;
 
-    // Copia o texto para o clipboard e abre o LinkedIn
     navigator.clipboard.writeText(texto).catch(() => {});
     showToast('✓ Texto copiado — cole no campo do LinkedIn');
     window.open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(liUrl)}`,
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
       '_blank'
     );
+  });
+
+  document.getElementById('btn-copy-cert-url').addEventListener('click', () => {
+    const url = state.certUrl;
+    if (!url) {
+      showToast('⏳ Aguarde, o link ainda está sendo gerado…');
+      return;
+    }
+    navigator.clipboard.writeText(url).catch(() => {});
+    showToast('✓ Link do certificado copiado!');
   });
 
   document.getElementById('btn-restart').addEventListener('click', () => location.reload());

@@ -6,7 +6,26 @@
       "Bash(gh auth *)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(gh repo *)",
+      "Bash(git push *)",
+      "Bash(curl -s -X POST https://vbzcrcpsdawbacbeproq.supabase.co/rest/v1/leads -H 'apikey: sb_publishable_HTzyDug4QlTfMjFiamITHA_zbPe1TdY' -H 'Authorization: Bearer sb_publishable_HTzyDug4QlTfMjFiamITHA_zbPe1TdY' -H 'Content-Type: application/json' -H 'Prefer: return=minimal' -d '{\"name\":\"Teste Integração\",\"email\":\"teste@networkingisking.net\",\"source\":\"landing\"}')",
+      "Bash(echo \"HTTP status: $?\")",
+      "Bash(curl -s -o /dev/null -w '%{http_code}' -X POST https://vbzcrcpsdawbacbeproq.supabase.co/rest/v1/leads -H 'apikey: sb_publishable_HTzyDug4QlTfMjFiamITHA_zbPe1TdY' -H 'Authorization: Bearer sb_publishable_HTzyDug4QlTfMjFiamITHA_zbPe1TdY' -H 'Content-Type: application/json' -H 'Prefer: return=minimal' -d '{\"name\":\"Teste Integração\",\"email\":\"teste@networkingisking.net\",\"source\":\"landing\"}')",
+      "Bash(gh api *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://networkingisking.net)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://networkingisking.net)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 10 https://networkingisking.net)",
+      "Bash(dig networkingisking.net A +short)",
+      "WebSearch",
+      "Bash(cp \"/Users/analuisabarros/Downloads/ChatGPT Image Jun 25, 2026, 11_18_07 PM.png\" \"/Users/analuisabarros/Documents/networking-livro/img/book-cover.jpg\")",
+      "Bash(git commit -m ' *)",
+      "Bash(ls ~/Downloads/ | grep \"Jul 12\")",
+      "Read(//Users/analuisabarros/Downloads/**)",
+      "Bash(cp \"/Users/analuisabarros/Downloads/ChatGPT Image Jul 12, 2026, 02_38_23 PM.png\" /Users/analuisabarros/Documents/networking-livro/img/favicon.png)"
+    ],
+    "additionalDirectories": [
+      "/Users/analuisabarros/Downloads"
     ]
   }
 }

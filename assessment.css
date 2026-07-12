@@ -488,14 +488,15 @@ a:hover { color: var(--gold-l); }
 }
 .share-lbl { font-size: 13px; color: var(--text-2); }
 
-.share-wpp, .share-li {
+.share-wpp, .share-li, .share-link {
   padding: 8px 20px; border-radius: 20px; border: none;
   font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer;
   transition: opacity var(--t);
 }
-.share-wpp { background: #25D366; color: #000; }
-.share-li  { background: #0a66c2; color: #fff; }
-.share-wpp:hover, .share-li:hover { opacity: 0.85; }
+.share-wpp  { background: #25D366; color: #000; }
+.share-li   { background: #0a66c2; color: #fff; }
+.share-link { background: var(--bg-card); color: var(--text-2); border: 1px solid var(--border); }
+.share-wpp:hover, .share-li:hover, .share-link:hover { opacity: 0.85; }
 
 .cert-back {
   display: flex; gap: 16px; align-items: center; justify-content: center; padding-top: 8px;

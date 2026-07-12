@@ -93,3 +93,20 @@ async function saveLead(data) {
     // falha silenciosa — não impede a experiência do usuário
   }
 }
+
+// ── Upload de certificado PNG para Supabase Storage ────────────
+async function uploadCertificate(blob, filename) {
+  if (!db) return null;
+  try {
+    const { data, error } = await db.storage
+      .from('certificates')
+      .upload(filename, blob, { contentType: 'image/png', upsert: true });
+    if (error) return null;
+    const { data: { publicUrl } } = db.storage
+      .from('certificates')
+      .getPublicUrl(data.path);
+    return publicUrl;
+  } catch (_) {
+    return null;
+  }
+}
