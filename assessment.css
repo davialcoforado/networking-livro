@@ -54,6 +54,18 @@ a:hover { color: var(--gold-l); }
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
 }
 
+.a-header-left {
+  display: flex; align-items: center; gap: 16px;
+}
+
+.a-back-link {
+  font-size: 12px; font-weight: 500; color: var(--text-3);
+  text-decoration: none; white-space: nowrap;
+  transition: color var(--t);
+  padding: 4px 0;
+}
+.a-back-link:hover { color: var(--gold); }
+
 .a-logo {
   display: flex; align-items: center; gap: 8px;
   color: var(--text-1); font-size: 14px; font-weight: 500;
@@ -498,7 +510,11 @@ a:hover { color: var(--gold-l); }
 .share-wpp:hover, .share-li:hover { opacity: 0.85; }
 
 .cert-back {
-  display: flex; gap: 16px; align-items: center; justify-content: center; padding-top: 8px;
+  display: flex; gap: 16px; align-items: center; justify-content: center;
+  flex-wrap: wrap; padding-top: 8px;
+}
+.cert-back-primary {
+  display: inline-block; width: auto; text-decoration: none;
 }
 
 /* ─────────────────────────
