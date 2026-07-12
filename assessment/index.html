@@ -53,9 +53,10 @@
             <div class="a-chips">
               <span>📊 Gráfico do seu perfil</span>
               <span>📜 Certificado para download</span>
-              <span>🕐 Menos de 5 minutos</span>
+              <span class="chip-highlight">🕐 Leva menos de 5 minutos</span>
               <span>🔒 Dados protegidos pela LGPD</span>
             </div>
+            <p class="a-time-note">Você consegue responder no intervalo de um café.</p>
 
             <!-- mini preview do quadrante -->
             <div class="qp-wrap">
@@ -79,6 +80,7 @@
               <p class="a-card-sub">Para gerar seu gráfico e certificado personalizados.</p>
 
               <form id="reg-form" novalidate>
+                <input type="text" name="website" id="reg-honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
 
                 <div class="f-group">
                   <label for="f-name">Nome completo <span class="f-req">*</span></label>

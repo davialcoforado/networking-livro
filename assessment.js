@@ -74,6 +74,9 @@ const Q = {
   }
 };
 
+/* ─── TEMPO DE CARREGAMENTO (anti-bot) ─── */
+const _formLoadedAt = Date.now();
+
 /* ─── ESTADO ─── */
 const state = {
   step: 1,
@@ -171,16 +174,21 @@ function bindStep1() {
 }
 
 function validateReg() {
-  let ok = true;
   const name  = document.getElementById('f-name').value.trim();
   const email = document.getElementById('f-email').value.trim();
   const lgpd  = document.getElementById('f-lgpd').checked;
+  const honey = document.getElementById('reg-honey');
 
   setErr('e-name', !name ? 'Por favor, informe seu nome.' : '');
   setErr('e-email', !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'Informe um email válido.' : '');
   setErr('e-lgpd', !lgpd ? 'Você precisa aceitar os termos para continuar.' : '');
 
-  return name && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && lgpd;
+  // Honeypot: bots preenchem campo oculto
+  if (honey && honey.value !== '') return false;
+  // Tempo mínimo: envio em menos de 3s indica bot
+  if (Date.now() - _formLoadedAt < 3000) return false;
+
+  return !!(name && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && lgpd);
 }
 
 function setErr(id, msg) {
