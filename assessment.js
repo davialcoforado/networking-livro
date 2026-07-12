@@ -93,6 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
   bindStep2();
   bindStep3();
   bindStep4();
+
+  const wppInput = document.getElementById('f-whatsapp');
+  if (wppInput) {
+    wppInput.addEventListener('input', function () {
+      this.value = KingLogic.formatWhatsapp(this.value);
+    });
+  }
 });
 
 /* ─── NAVEGAÇÃO ENTRE PASSOS ─── */
@@ -150,11 +157,13 @@ function bindStep1() {
     if (!validateReg()) return;
 
     state.user = {
-      name:    document.getElementById('f-name').value.trim(),
-      email:   document.getElementById('f-email').value.trim(),
-      country: document.getElementById('f-country').value.trim(),
-      state:   document.getElementById('f-state').value.trim(),
-      zip:     document.getElementById('f-zip').value.trim()
+      name:     document.getElementById('f-name').value.trim(),
+      email:    document.getElementById('f-email').value.trim(),
+      whatsapp: document.getElementById('f-whatsapp').value.trim(),
+      city:     document.getElementById('f-city').value.trim(),
+      country:  document.getElementById('f-country').value.trim(),
+      state:    document.getElementById('f-state').value.trim(),
+      zip:      document.getElementById('f-zip').value.trim()
     };
 
     goToStep(2);

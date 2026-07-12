@@ -95,19 +95,29 @@
                 <details class="f-optional">
                   <summary>+ Campos opcionais</summary>
                   <div class="f-opt-body">
+                    <div class="f-group">
+                      <label for="f-whatsapp">WhatsApp</label>
+                      <input type="tel" id="f-whatsapp" name="whatsapp" placeholder="(11) 99999-9999" maxlength="15" />
+                    </div>
                     <div class="f-row">
                       <div class="f-group">
-                        <label for="f-country">País</label>
-                        <input type="text" id="f-country" name="country" placeholder="Brasil" />
+                        <label for="f-city">Cidade</label>
+                        <input type="text" id="f-city" name="city" placeholder="São Paulo" />
                       </div>
                       <div class="f-group">
                         <label for="f-state">Estado/UF</label>
                         <input type="text" id="f-state" name="state" placeholder="SP" maxlength="2" />
                       </div>
                     </div>
-                    <div class="f-group">
-                      <label for="f-zip">CEP</label>
-                      <input type="text" id="f-zip" name="zip" placeholder="00000-000" maxlength="9" />
+                    <div class="f-row">
+                      <div class="f-group">
+                        <label for="f-country">País</label>
+                        <input type="text" id="f-country" name="country" placeholder="Brasil" />
+                      </div>
+                      <div class="f-group">
+                        <label for="f-zip">CEP</label>
+                        <input type="text" id="f-zip" name="zip" placeholder="00000-000" maxlength="9" />
+                      </div>
                     </div>
                   </div>
                 </details>
@@ -116,12 +126,19 @@
                   <label class="f-check">
                     <input type="checkbox" id="f-lgpd" required />
                     <span class="f-check-txt">
-                      Concordo com o uso dos meus dados para comunicações sobre o livro
+                      Concordo com o tratamento dos meus dados para geração do diagnóstico,
+                      emissão do certificado e recebimento de conteúdos relacionados ao
                       <em>Networking is KING</em>, conforme a
                       <strong>Lei Geral de Proteção de Dados (LGPD)</strong>.
                     </span>
                   </label>
                   <span class="f-err" id="e-lgpd"></span>
+                  <p class="f-lgpd-del">
+                    Deseja remover seus dados?
+                    <a href="mailto:privacidade@networkingisking.net?subject=Solicitação de exclusão de cadastro">
+                      Clique aqui para solicitar exclusão do cadastro.
+                    </a>
+                  </p>
                 </div>
 
                 <button type="submit" class="a-btn-primary">

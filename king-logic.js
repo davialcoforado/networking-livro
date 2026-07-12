@@ -84,6 +84,8 @@
     return {
       name: user.name,
       email: user.email,
+      whatsapp: user.whatsapp || null,
+      city: user.city || null,
       country: user.country || null,
       state: user.state || null,
       zip: user.zip || null,
