@@ -528,26 +528,15 @@ function bindStep4() {
   });
 
   document.getElementById('btn-share-li').addEventListener('click', () => {
-    const certUrl  = state.certUrl || null;
-    const shareUrl = certUrl || 'https://networkingisking.net/assessment/';
-    const texto    = `Fiz o Diagnóstico K.I.N.G. do livro "Networking is KING" de Cláudio Alcoforado e meu perfil é ${state.quadrant.name} — ${state.quadrant.label}.\n\nFaça o seu diagnóstico gratuito: https://networkingisking.net/assessment/`;
+    const liUrl = 'https://networkingisking.net/assessment/';
+    const texto = `Fiz o Diagnóstico K.I.N.G. do livro "Networking is KING" de Cláudio Alcoforado e meu perfil é ${state.quadrant.name} — ${state.quadrant.label}.\n\nFaça o seu diagnóstico gratuito: ${liUrl}`;
 
     navigator.clipboard.writeText(texto).catch(() => {});
     showToast('✓ Texto copiado — cole no campo do LinkedIn');
     window.open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(liUrl)}`,
       '_blank'
     );
-  });
-
-  document.getElementById('btn-copy-cert-url').addEventListener('click', () => {
-    const url = state.certUrl;
-    if (!url) {
-      showToast('⏳ Aguarde, o link ainda está sendo gerado…');
-      return;
-    }
-    navigator.clipboard.writeText(url).catch(() => {});
-    showToast('✓ Link do certificado copiado!');
   });
 
   document.getElementById('btn-restart').addEventListener('click', () => location.reload());
