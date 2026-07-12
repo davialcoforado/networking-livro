@@ -366,7 +366,7 @@ a:hover { color: var(--gold-l); }
   gap: 3px; padding: 10px 4px; min-height: 64px;
   background: var(--bg-2); border: 1px solid var(--border); border-radius: 8px;
   cursor: pointer; transition: all var(--t);
-  font-size: 17px; font-weight: 700; color: var(--text-3);
+  font-size: 17px; font-weight: 700; color: var(--text-2);
   text-align: center;
 }
 .likert-opt label .l-lbl {

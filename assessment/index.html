@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Descubra seu Estilo K.I.N.G. de networking. Diagnóstico gratuito baseado no livro Networking is KING de Cláudio Alcoforado." />
   <title>Diagnóstico K.I.N.G., Networking is KING</title>
+
+  <!-- Open Graph / LinkedIn preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://networkingisking.net/assessment/" />
+  <meta property="og:title" content="Diagnóstico K.I.N.G. — Qual é o seu Estilo de Networking?" />
+  <meta property="og:description" content="Responda 12 afirmações e descubra onde você está no quadrante do networking, com gráfico e certificado personalizados para baixar. Baseado no livro Networking is KING de Cláudio Alcoforado." />
+  <meta property="og:image" content="https://networkingisking.net/img/book-cover.jpg" />
+  <meta property="og:site_name" content="Networking is KING" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -94,35 +102,22 @@
                   <span class="f-err" id="e-email"></span>
                 </div>
 
-                <details class="f-optional">
-                  <summary>+ Campos opcionais</summary>
-                  <div class="f-opt-body">
-                    <div class="f-group">
-                      <label for="f-whatsapp">WhatsApp</label>
-                      <input type="tel" id="f-whatsapp" name="whatsapp" placeholder="(11) 99999-9999" maxlength="15" />
-                    </div>
-                    <div class="f-row">
-                      <div class="f-group">
-                        <label for="f-city">Cidade</label>
-                        <input type="text" id="f-city" name="city" placeholder="São Paulo" />
-                      </div>
-                      <div class="f-group">
-                        <label for="f-state">Estado/UF</label>
-                        <input type="text" id="f-state" name="state" placeholder="SP" maxlength="2" />
-                      </div>
-                    </div>
-                    <div class="f-row">
-                      <div class="f-group">
-                        <label for="f-country">País</label>
-                        <input type="text" id="f-country" name="country" placeholder="Brasil" />
-                      </div>
-                      <div class="f-group">
-                        <label for="f-zip">CEP</label>
-                        <input type="text" id="f-zip" name="zip" placeholder="00000-000" maxlength="9" />
-                      </div>
-                    </div>
+                <div class="f-group">
+                  <label for="f-whatsapp">WhatsApp <span class="f-req">*</span></label>
+                  <input type="tel" id="f-whatsapp" name="whatsapp" placeholder="(11) 99999-9999" maxlength="15" required />
+                  <span class="f-err" id="e-whatsapp"></span>
+                </div>
+
+                <div class="f-row">
+                  <div class="f-group">
+                    <label for="f-city">Cidade</label>
+                    <input type="text" id="f-city" name="city" placeholder="São Paulo" />
                   </div>
-                </details>
+                  <div class="f-group">
+                    <label for="f-country">País</label>
+                    <input type="text" id="f-country" name="country" placeholder="Brasil" />
+                  </div>
+                </div>
 
                 <div class="f-group f-lgpd">
                   <label class="f-check">
@@ -267,11 +262,6 @@
         </div>
 
         <div class="dl-grid">
-          <button class="dl-card" id="btn-dl-cert">
-            <span class="dl-icon">📜</span>
-            <strong>Certificado</strong>
-            <small>Download PNG</small>
-          </button>
           <button class="dl-card" id="btn-dl-chart2">
             <span class="dl-icon">📊</span>
             <strong>Gráfico</strong>
@@ -280,14 +270,19 @@
           <button class="dl-card" id="btn-dl-answers">
             <span class="dl-icon">📋</span>
             <strong>Questionário</strong>
-            <small>Imprimir / salvar PDF</small>
+            <small>Download PDF</small>
+          </button>
+          <button class="dl-card" id="btn-dl-cert">
+            <span class="dl-icon">📜</span>
+            <strong>Certificado</strong>
+            <small>Download PDF</small>
           </button>
         </div>
 
         <div class="share-row">
           <span class="share-lbl">Compartilhar:</span>
-          <button class="share-wpp" id="btn-share-wpp">WhatsApp</button>
           <button class="share-li" id="btn-share-li">LinkedIn</button>
+          <button class="share-wpp" id="btn-share-wpp">WhatsApp</button>
         </div>
 
         <div class="cert-back">

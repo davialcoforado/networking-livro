@@ -164,9 +164,7 @@ function bindStep1() {
       email:    document.getElementById('f-email').value.trim(),
       whatsapp: document.getElementById('f-whatsapp').value.trim(),
       city:     document.getElementById('f-city').value.trim(),
-      country:  document.getElementById('f-country').value.trim(),
-      state:    document.getElementById('f-state').value.trim(),
-      zip:      document.getElementById('f-zip').value.trim()
+      country:  document.getElementById('f-country').value.trim()
     };
 
     goToStep(2);
@@ -174,21 +172,26 @@ function bindStep1() {
 }
 
 function validateReg() {
-  const name  = document.getElementById('f-name').value.trim();
-  const email = document.getElementById('f-email').value.trim();
-  const lgpd  = document.getElementById('f-lgpd').checked;
-  const honey = document.getElementById('reg-honey');
+  const name     = document.getElementById('f-name').value.trim();
+  const email    = document.getElementById('f-email').value.trim();
+  const whatsapp = document.getElementById('f-whatsapp').value.trim();
+  const lgpd     = document.getElementById('f-lgpd').checked;
+  const honey    = document.getElementById('reg-honey');
 
-  setErr('e-name', !name ? 'Por favor, informe seu nome.' : '');
-  setErr('e-email', !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'Informe um email válido.' : '');
-  setErr('e-lgpd', !lgpd ? 'Você precisa aceitar os termos para continuar.' : '');
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const wppOk   = KingLogic.validatePhone(whatsapp);
+
+  setErr('e-name',     !name     ? 'Por favor, informe seu nome.' : '');
+  setErr('e-email',    !emailOk  ? 'Informe um email válido.' : '');
+  setErr('e-whatsapp', !whatsapp ? 'Informe seu WhatsApp.' : (!wppOk ? 'Número inválido — mínimo 10 dígitos.' : ''));
+  setErr('e-lgpd',     !lgpd     ? 'Você precisa aceitar os termos para continuar.' : '');
 
   // Honeypot: bots preenchem campo oculto
   if (honey && honey.value !== '') return false;
   // Tempo mínimo: envio em menos de 3s indica bot
   if (Date.now() - _formLoadedAt < 3000) return false;
 
-  return !!(name && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && lgpd);
+  return !!(name && emailOk && wppOk && lgpd);
 }
 
 function setErr(id, msg) {
@@ -321,9 +324,10 @@ function drawChart(canvas, a, b, name) {
   const cW = W - M.left - M.right;
   const cH = H - M.top  - M.bottom;
 
-  /* 0–30 scale mapping */
-  const px = v => M.left + (v / 30) * cW;
-  const py = v => M.top  + cH - (v / 30) * cH;
+  /* 6–30 scale mapping (min 6×1, max 6×5 — threshold 18 fica exatamente no centro) */
+  const SMIN = 6, SRANGE = 24;
+  const px = v => M.left + ((v - SMIN) / SRANGE) * cW;
+  const py = v => M.top  + cH - ((v - SMIN) / SRANGE) * cH;
   const thX = px(THRESHOLD);
   const thY = py(THRESHOLD);
 
@@ -349,7 +353,7 @@ function drawChart(canvas, a, b, name) {
   ctx.strokeStyle = 'rgba(201,168,76,0.09)';
   ctx.lineWidth = 1;
   ctx.setLineDash([3, 8]);
-  [5, 10, 15, 20, 25, 30].forEach(v => {
+  [6, 12, 18, 24, 30].forEach(v => {
     ctx.beginPath(); ctx.moveTo(px(v), M.top);    ctx.lineTo(px(v), M.top + cH); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(M.left, py(v));   ctx.lineTo(M.left + cW, py(v)); ctx.stroke();
   });
@@ -377,7 +381,7 @@ function drawChart(canvas, a, b, name) {
   /* ── tick labels ── */
   ctx.fillStyle = 'rgba(201,168,76,0.55)';
   ctx.font = '11px monospace';
-  [0, 5, 10, 15, 20, 25, 30].forEach(v => {
+  [6, 12, 18, 24, 30].forEach(v => {
     ctx.textAlign = 'center';
     ctx.fillText(v, px(v), M.top + cH + 17);
     ctx.textAlign = 'right';
@@ -479,22 +483,51 @@ function buildCertificate() {
 }
 
 function bindStep4() {
-  document.getElementById('btn-dl-cert').addEventListener('click', () =>
-    dlCanvas(document.getElementById('cert-canvas'), `certificado-king-${firstName()}.png`));
+  document.getElementById('btn-dl-cert').addEventListener('click', dlCertPdf);
 
   document.getElementById('btn-dl-chart2').addEventListener('click', () =>
     dlCanvas(document.getElementById('chart-canvas'), `diagnostico-king-${firstName()}.png`));
 
   document.getElementById('btn-dl-answers').addEventListener('click', dlAnswers);
 
-  document.getElementById('btn-share-wpp').addEventListener('click', () => {
+  document.getElementById('btn-share-wpp').addEventListener('click', async () => {
     const txt = `Fiz o diagnóstico do livro *Networking is KING* de Cláudio Alcoforado e meu perfil é *${state.quadrant.name}*! 🏆\n\nFaça o seu: https://networkingisking.net/assessment/`;
+
+    const certCanvas  = document.getElementById('cert-canvas');
+    const chartCanvas = document.getElementById('chart-canvas');
+
+    if (navigator.share && navigator.canShare) {
+      try {
+        const toFile = (canvas, name) => new Promise(res =>
+          canvas.toBlob(blob => res(new File([blob], name, { type: 'image/png' })), 'image/png')
+        );
+        const files = await Promise.all([
+          toFile(certCanvas,  `certificado-king-${firstName()}.png`),
+          toFile(chartCanvas, `grafico-king-${firstName()}.png`)
+        ]);
+        if (navigator.canShare({ files })) {
+          await navigator.share({ files, text: txt });
+          return;
+        }
+      } catch (e) {
+        if (e.name === 'AbortError') return; // usuário cancelou a gaveta
+      }
+    }
+
+    // Fallback desktop: link de texto pelo wa.me
     window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
   });
 
   document.getElementById('btn-share-li').addEventListener('click', () => {
-    const url = encodeURIComponent('https://networkingisking.net/assessment/');
-    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+    const url     = encodeURIComponent('https://networkingisking.net/assessment/');
+    const title   = encodeURIComponent(`Meu perfil no Diagnóstico K.I.N.G.: ${state.quadrant.name}`);
+    const summary = encodeURIComponent(
+      `Fiz o Diagnóstico K.I.N.G. do livro "Networking is KING" de Cláudio Alcoforado e meu perfil é ${state.quadrant.name} — ${state.quadrant.label}.\n\nFaça o seu diagnóstico gratuito: https://networkingisking.net/assessment/`
+    );
+    window.open(
+      `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}&summary=${summary}&source=Networking+is+KING`,
+      '_blank'
+    );
   });
 
   document.getElementById('btn-restart').addEventListener('click', () => location.reload());
@@ -655,6 +688,29 @@ function dlCanvas(canvas, filename) {
   a.download = filename;
   a.href = canvas.toDataURL('image/png');
   a.click();
+}
+
+function dlCertPdf() {
+  const img = document.getElementById('cert-canvas').toDataURL('image/png');
+  const name = state.user.name;
+  const html = `<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>Certificado KING - ${name}</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d0d0d;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}
+img{width:100%;max-width:900px;display:block;margin:0 auto}
+@page{margin:0;size:landscape}
+@media print{body{background:#fff;padding:0}img{width:100%;max-width:100%}}
+</style>
+</head><body>
+<img src="${img}" alt="Certificado Networking is KING" />
+<script>setTimeout(()=>window.print(),600);<\/script>
+</body></html>`;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  setTimeout(() => URL.revokeObjectURL(url), 15000);
 }
 
 function firstName() {
