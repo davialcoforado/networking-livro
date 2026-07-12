@@ -13,6 +13,36 @@
 <body>
 
   <!-- ═══════════════════════════════════════
+       NAVBAR
+  ════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="container navbar-inner">
+
+      <a href="#" class="navbar-logo">
+        <span class="navbar-crown">♛</span>
+        <span>Networking is <strong>KING</strong></span>
+      </a>
+
+      <button class="navbar-toggle" id="navbar-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="navbar-links" id="navbar-links">
+        <li><a href="#sobre">O Livro</a></li>
+        <li><a href="#atitude-king">Método</a></li>
+        <li><a href="#autor">Autor</a></li>
+        <li><a href="#palestras">Palestras</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
+        <li><a href="#fale-com-autor">Contato</a></li>
+      </ul>
+
+      <a href="assessment/" class="navbar-cta">♛ Diagnóstico</a>
+
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════
        HERO
   ════════════════════════════════════════ -->
   <section class="hero">
@@ -591,9 +621,57 @@
        FOOTER
   ════════════════════════════════════════ -->
   <footer class="footer">
-    <div class="container">
-      <p>&copy; <span id="footer-year"></span> Cláudio Alcoforado · Networking is KING · ISBN 978-65-01-90453-5</p>
-      <p style="margin-top:6px;font-size:13px;"><a href="assessment/">♛ Fazer meu Diagnóstico K.I.N.G.</a></p>
+    <div class="container footer-body">
+
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="gold">♛</span> Networking is <strong>KING</strong>
+        </div>
+        <p class="footer-tagline">
+          A Atitude King. Gerando Negócios, Empregabilidade, Representações e Parcerias.
+        </p>
+        <a href="https://www.linkedin.com/in/claudioalcoforado/" target="_blank" rel="noopener noreferrer" class="footer-linkedin">
+          LinkedIn · Cláudio Alcoforado
+        </a>
+      </div>
+
+      <div class="footer-nav">
+        <p class="footer-col-title">Navegar</p>
+        <ul>
+          <li><a href="#sobre">O Livro</a></li>
+          <li><a href="#atitude-king">O Método K.I.N.G.</a></li>
+          <li><a href="#para-quem">Para quem é</a></li>
+          <li><a href="#autor">Sobre o autor</a></li>
+          <li><a href="#depoimentos">Depoimentos</a></li>
+          <li><a href="#palestras">Palestras & Mentoria</a></li>
+          <li><a href="#comunidade">Comunidade</a></li>
+          <li><a href="#fale-com-autor">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-nav">
+        <p class="footer-col-title">Diagnóstico</p>
+        <ul>
+          <li><a href="assessment/">♛ Fazer meu Diagnóstico</a></li>
+          <li><a href="#livro">Receber o livro</a></li>
+          <li><a href="assessment/">Emitir certificado</a></li>
+        </ul>
+        <p class="footer-col-title" style="margin-top:28px;">LGPD</p>
+        <ul>
+          <li>
+            <a href="mailto:privacidade@networkingisking.net?subject=Solicitação de exclusão de cadastro">
+              Solicitar exclusão de dados
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; <span id="footer-year"></span> Cláudio Alcoforado · Networking is KING · ISBN 978-65-01-90453-5</p>
+      </div>
     </div>
   </footer>
 
@@ -603,6 +681,43 @@
   <script>
     // Footer year
     document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    // Navbar — scroll effect
+    var navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function() {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // Navbar — active link on scroll
+    var navLinks = document.querySelectorAll('.navbar-links a');
+    var sections = Array.from(navLinks).map(function(a) {
+      return document.querySelector(a.getAttribute('href'));
+    }).filter(Boolean);
+
+    var ioNav = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          navLinks.forEach(function(a) {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(function(s) { ioNav.observe(s); });
+
+    // Navbar — mobile toggle
+    var toggle = document.getElementById('navbar-toggle');
+    var links  = document.getElementById('navbar-links');
+    toggle.addEventListener('click', function() {
+      var open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+    links.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
 
     var FSPREE = typeof FORMSPREE_ID !== 'undefined' ? FORMSPREE_ID : 'mqevenjw';
 
