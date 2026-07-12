@@ -519,13 +519,14 @@ function bindStep4() {
   });
 
   document.getElementById('btn-share-li').addEventListener('click', () => {
-    const url     = encodeURIComponent('https://networkingisking.net/assessment/');
-    const title   = encodeURIComponent(`Meu perfil no Diagnóstico K.I.N.G.: ${state.quadrant.name}`);
-    const summary = encodeURIComponent(
-      `Fiz o Diagnóstico K.I.N.G. do livro "Networking is KING" de Cláudio Alcoforado e meu perfil é ${state.quadrant.name} — ${state.quadrant.label}.\n\nFaça o seu diagnóstico gratuito: https://networkingisking.net/assessment/`
-    );
+    const liUrl = 'https://networkingisking.net/assessment/';
+    const texto = `Fiz o Diagnóstico K.I.N.G. do livro "Networking is KING" de Cláudio Alcoforado e meu perfil é ${state.quadrant.name} — ${state.quadrant.label}.\n\nFaça o seu diagnóstico gratuito: ${liUrl}`;
+
+    // Copia o texto para o clipboard e abre o LinkedIn
+    navigator.clipboard.writeText(texto).catch(() => {});
+    showToast('✓ Texto copiado — cole no campo do LinkedIn');
     window.open(
-      `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}&summary=${summary}&source=Networking+is+KING`,
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(liUrl)}`,
       '_blank'
     );
   });
@@ -715,6 +716,15 @@ img{width:100%;max-width:900px;display:block;margin:0 auto}
 
 function firstName() {
   return KingLogic.firstName(state.user.name);
+}
+
+function showToast(msg, ms) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), ms || 3500);
 }
 
 /* Gera página de respostas e abre para impressão/PDF */
