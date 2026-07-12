@@ -1458,6 +1458,18 @@ strong { font-weight: 600; color: var(--text-1); }
   background: var(--bg-0);
 }
 
+.wpp-community-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 24px;
+  padding: 13px 26px;
+  background: #25D366; color: #000;
+  font-size: 14px; font-weight: 700;
+  border-radius: 8px; text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.wpp-community-btn:hover { opacity: 0.88; transform: translateY(-1px); color: #000; }
+.wpp-community-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
 .contact-form {
   max-width: 700px;
   margin: 0 auto;
