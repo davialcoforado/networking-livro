@@ -1507,6 +1507,19 @@ strong { font-weight: 600; color: var(--text-1); }
 .testi-author {
   border-top: 1px solid var(--border);
   padding-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.testi-photo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 2px solid rgba(201,168,76,0.4);
+  flex-shrink: 0;
 }
 
 .testi-name {
