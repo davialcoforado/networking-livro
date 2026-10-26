@@ -2,11 +2,11 @@
    VARIÁVEIS & RESET
 ════════════════════════════════════════════ */
 :root {
-  --bg-0:        #0a0a0a;
-  --bg-1:        #111111;
-  --bg-2:        #181818;
-  --bg-card:     #1e1e1e;
-  --border:      #2a2a2a;
+  --bg-0:        #040e1c;
+  --bg-1:        #081628;
+  --bg-2:        #0d1d38;
+  --bg-card:     #122042;
+  --border:      #1b3060;
 
   --gold:        #c9a84c;
   --gold-light:  #e2c06a;
@@ -37,7 +37,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 body {
@@ -480,9 +480,12 @@ strong { font-weight: 600; color: var(--text-1); }
 }
 
 .who-icon {
-  font-size: 1.8rem;
+  width: 44px;
+  height: 44px;
+  color: var(--gold);
   margin-bottom: 16px;
 }
+.who-icon svg { width: 44px; height: 44px; display: block; }
 
 .who-card h3 {
   font-family: var(--font-serif);
@@ -1206,8 +1209,11 @@ strong { font-weight: 600; color: var(--text-1); }
 }
 
 .book-type-icon {
-  font-size: 2rem;
+  width: 40px;
+  height: 40px;
+  color: var(--gold);
 }
+.book-type-icon svg { width: 40px; height: 40px; display: block; }
 
 .book-type-card strong {
   display: block;
@@ -1444,7 +1450,12 @@ strong { font-weight: 600; color: var(--text-1); }
   box-shadow: 0 12px 40px rgba(0,0,0,0.4), var(--shadow-gold);
 }
 
-.speak-icon { font-size: 2rem; }
+.speak-icon {
+  width: 44px;
+  height: 44px;
+  color: var(--gold);
+}
+.speak-icon svg { width: 44px; height: 44px; display: block; }
 
 .speak-card h3 {
   font-family: var(--font-serif);
