@@ -2,11 +2,11 @@
    VARIÁVEIS & RESET
 ════════════════════════════════════════════ */
 :root {
-  --bg-0:        #040e1c;
-  --bg-1:        #081628;
-  --bg-2:        #0d1d38;
-  --bg-card:     #122042;
-  --border:      #1b3060;
+  --bg-0:        #0b1530;
+  --bg-1:        #0f1e40;
+  --bg-2:        #132449;
+  --bg-card:     #172d58;
+  --border:      #213e70;
 
   --gold:        #c9a84c;
   --gold-light:  #e2c06a;
@@ -1507,9 +1507,9 @@ strong { font-weight: 600; color: var(--text-1); }
 }
 
 .testi-quote {
-  font-size: 0.95rem;
+  font-size: 1.08rem;
   color: var(--text-2);
-  line-height: 1.8;
+  line-height: 1.85;
   font-style: italic;
   padding-top: 24px;
   border: none;
@@ -1536,15 +1536,15 @@ strong { font-weight: 600; color: var(--text-1); }
 
 .testi-name {
   font-family: var(--font-serif);
-  font-size: 1rem;
+  font-size: 1.08rem;
   font-weight: 600;
   color: var(--gold);
 }
 
 .testi-role {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--text-3);
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 /* ═══════════════════════════════════════════

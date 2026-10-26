@@ -688,30 +688,37 @@ function drawCertificate(canvas, user, qd, scores) {
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
-  /* ── background ── */
+  /* ── background: navy da capa do livro ── */
   const bg = ctx.createLinearGradient(0, 0, W, H);
-  bg.addColorStop(0, '#0d0d0d');
-  bg.addColorStop(0.55, '#111009');
-  bg.addColorStop(1, '#160f02');
+  bg.addColorStop(0,   '#0e1e45');
+  bg.addColorStop(0.5, '#152855');
+  bg.addColorStop(1,   '#0f2040');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  /* diagonal texture */
-  ctx.strokeStyle = 'rgba(201,168,76,0.022)';
+  /* vignette escuro nas bordas */
+  const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.25, W / 2, H / 2, W * 0.8);
+  vig.addColorStop(0, 'transparent');
+  vig.addColorStop(1, 'rgba(4, 10, 28, 0.55)');
+  ctx.fillStyle = vig;
+  ctx.fillRect(0, 0, W, H);
+
+  /* diagonal texture sutil */
+  ctx.strokeStyle = 'rgba(255,255,255,0.018)';
   ctx.lineWidth = 1;
-  for (let i = -H; i < W; i += 24) {
+  for (let i = -H; i < W; i += 22) {
     ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + H, H); ctx.stroke();
   }
 
   /* ── borders ── */
-  ctx.strokeStyle = '#c9a84c'; ctx.lineWidth = 3;
-  ctx.strokeRect(12, 12, W - 24, H - 24);
-  ctx.strokeStyle = 'rgba(201,168,76,0.28)'; ctx.lineWidth = 1;
-  ctx.strokeRect(20, 20, W - 40, H - 40);
+  ctx.strokeStyle = '#c9a84c'; ctx.lineWidth = 2.5;
+  ctx.strokeRect(14, 14, W - 28, H - 28);
+  ctx.strokeStyle = 'rgba(201,168,76,0.22)'; ctx.lineWidth = 1;
+  ctx.strokeRect(22, 22, W - 44, H - 44);
 
   /* ── corner ornaments ── */
-  [[30, 30, 'tl'], [W-30, 30, 'tr'], [30, H-30, 'bl'], [W-30, H-30, 'br']].forEach(([x, y, p]) => {
-    const s = 24;
+  [[32, 32, 'tl'], [W-32, 32, 'tr'], [32, H-32, 'bl'], [W-32, H-32, 'br']].forEach(([x, y, p]) => {
+    const s = 28;
     ctx.strokeStyle = '#c9a84c'; ctx.lineWidth = 1.5;
     ctx.beginPath();
     if (p === 'tl') { ctx.moveTo(x+s,y); ctx.lineTo(x,y); ctx.lineTo(x,y+s); }
@@ -720,20 +727,26 @@ function drawCertificate(canvas, user, qd, scores) {
     if (p === 'br') { ctx.moveTo(x-s,y); ctx.lineTo(x,y); ctx.lineTo(x,y-s); }
     ctx.stroke();
     ctx.fillStyle = '#c9a84c';
-    ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill();
   });
 
   /* ── crown ── */
-  ctx.font = '54px serif';
+  ctx.font = '60px serif';
   ctx.fillStyle = '#c9a84c';
   ctx.textAlign = 'center';
-  ctx.fillText('♛', W / 2, 106);
+  /* gold glow atrás da coroa */
+  ctx.shadowColor = 'rgba(201,168,76,0.45)';
+  ctx.shadowBlur = 22;
+  ctx.fillText('♛', W / 2, 108);
+  ctx.shadowBlur = 0;
 
-  /* ── book name ── */
-  ctx.font = 'bold 10px Georgia, serif';
-  ctx.fillStyle = 'rgba(201,168,76,0.58)';
+  /* ── book name: estilo da capa — bold spaced ── */
+  ctx.font = 'bold 11px "Inter", Arial, sans-serif';
+  ctx.fillStyle = '#c9a84c';
   ctx.textAlign = 'center';
-  ctx.fillText('N E T W O R K I N G   I S   K I N G', W / 2, 134);
+  ctx.letterSpacing = '0.25em';
+  ctx.fillText('NETWORKING  IS  KING', W / 2, 138);
+  ctx.letterSpacing = '0px';
 
   /* divider */
   const gd = (y) => {
