@@ -1320,6 +1320,71 @@ strong { font-weight: 600; color: var(--text-1); }
 /* ═══════════════════════════════════════════
    COMUNIDADE
 ════════════════════════════════════════════ */
+/* ── Agenda de Lançamento ─────────────────── */
+.section-agenda {
+  background: var(--bg-1);
+}
+
+.agenda-list {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.agenda-item {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 24px;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.agenda-item:first-child { border-top: 1px solid var(--border); }
+
+.agenda-date {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  font-family: var(--font-serif);
+  white-space: nowrap;
+}
+
+.agenda-info strong {
+  display: block;
+  color: var(--text-1);
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.agenda-info span {
+  color: var(--text-3);
+  font-size: 13px;
+}
+
+.agenda-featured {
+  background: var(--bg-card);
+  border: 1px solid rgba(201,168,76,0.5) !important;
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin: 4px 0;
+  box-shadow: 0 0 24px rgba(201,168,76,0.08);
+}
+
+.agenda-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+  margin-left: 8px;
+  font-family: var(--font-sans);
+}
+
 .section-community {
   background: var(--bg-1);
 }
