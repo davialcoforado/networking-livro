@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Networking is KING — A Atitude King. Gerando Negócios, Empregabilidade, Representações e Parcerias. Faça seu diagnóstico gratuito de networking. Livro de Cláudio Alcoforado." />
   <title>Networking is KING — Cláudio Alcoforado</title>
+
+  <!-- Open Graph / LinkedIn / WhatsApp preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://networkingisking.net/" />
+  <meta property="og:title" content="Networking is KING — Cláudio Alcoforado" />
+  <meta property="og:description" content="Descubra seu Estilo K.I.N.G. de networking. Diagnóstico gratuito baseado no livro Networking is KING de Cláudio Alcoforado." />
+  <meta property="og:image" content="https://networkingisking.net/img/book-cover.jpg" />
+  <meta property="og:site_name" content="Networking is KING" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://networkingisking.net/img/book-cover.jpg" />
   <link rel="icon" type="image/png" href="img/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -795,6 +805,7 @@
           message: document.getElementById('c-msg').value,
           source:  'contact'
         };
+        if (typeof saveLead === 'function') saveLead({ name: name, email: email, source: 'contact' });
         submitToFormspree(FSPREE, data, function() {
           btn.disabled = false; text.hidden = false; load.hidden = true;
           contactForm.hidden = true;

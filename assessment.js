@@ -370,8 +370,9 @@ function drawChart(canvas, a, b, name) {
   const W = 680, H = 630;
   canvas.width  = W * dpr;
   canvas.height = H * dpr;
-  canvas.style.width  = W + 'px';
-  canvas.style.height = H + 'px';
+  const dispW = Math.min(W, window.innerWidth - 32);
+  canvas.style.width  = dispW + 'px';
+  canvas.style.height = Math.round(dispW * H / W) + 'px';
 
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
