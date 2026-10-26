@@ -77,6 +77,45 @@ const Q = {
 /* ─── TEMPO DE CARREGAMENTO (anti-bot) ─── */
 const _formLoadedAt = Date.now();
 
+/* ─── PRE-LOAD IMAGES FOR CHART STRIP ─── */
+let _imgBookCover = null;
+let _imgAuthor    = null;
+
+function _loadImg(src) {
+  return new Promise(res => {
+    const img = new Image();
+    img.onload  = () => res(img);
+    img.onerror = () => res(null);
+    img.src = src;
+  });
+}
+
+async function preloadChartImages() {
+  [_imgBookCover, _imgAuthor] = await Promise.all([
+    _loadImg('../img/book-cover.jpg'),
+    _loadImg('../img/author-claudio.png')
+  ]);
+}
+
+function _drawQR(ctx, x, y, size, url) {
+  if (typeof qrcode === 'undefined') return;
+  try {
+    const qr = qrcode(0, 'M');
+    qr.addData(url);
+    qr.make();
+    const count = qr.getModuleCount();
+    const cell  = size / count;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(x, y, size, size);
+    ctx.fillStyle = '#000000';
+    for (let r = 0; r < count; r++) {
+      for (let c = 0; c < count; c++) {
+        if (qr.isDark(r, c)) ctx.fillRect(x + c * cell, y + r * cell, cell, cell);
+      }
+    }
+  } catch (_) {}
+}
+
 /* ─── ESTADO ─── */
 const state = {
   step: 1,
@@ -91,6 +130,7 @@ const state = {
 ══════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof initSupabase === 'function') initSupabase();
+  preloadChartImages();
   renderQuestions();
   bindStep1();
   bindStep2();
@@ -311,7 +351,7 @@ function bindStep3() {
 ══════════════════════════════════ */
 function drawChart(canvas, a, b, name) {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const W = 680, H = 500;
+  const W = 680, H = 630;
   canvas.width  = W * dpr;
   canvas.height = H * dpr;
   canvas.style.width  = W + 'px';
@@ -322,7 +362,7 @@ function drawChart(canvas, a, b, name) {
 
   const M = { top: 58, right: 40, bottom: 82, left: 82 };
   const cW = W - M.left - M.right;
-  const cH = H - M.top  - M.bottom;
+  const cH = 500 - M.top - M.bottom; // fixed at 360 — strip is drawn below y=500
 
   /* 6–30 scale mapping (min 6×1, max 6×5 — threshold 18 fica exatamente no centro) */
   const SMIN = 6, SRANGE = 24;
@@ -392,7 +432,7 @@ function drawChart(canvas, a, b, name) {
   ctx.fillStyle = '#c9a84c';
   ctx.font = 'bold 11px Georgia, serif';
   ctx.textAlign = 'center';
-  ctx.fillText('INTENCIONALIDADE DO RELACIONAMENTO', M.left + cW / 2, H - 10);
+  ctx.fillText('INTENCIONALIDADE DO RELACIONAMENTO', M.left + cW / 2, 490);
 
   ctx.save();
   ctx.translate(14, M.top + cH / 2);
@@ -471,6 +511,79 @@ function drawChart(canvas, a, b, name) {
   ctx.fillStyle = 'rgba(201,168,76,0.58)';
   ctx.textAlign = 'center';
   ctx.fillText(`(${a}, ${b})`, dx, dy + 25);
+
+  /* ── bottom strip: capa · autor · texto · QR ── */
+  const STRIP_TOP = 500;
+  const STRIP_H   = 130;
+  const stripCY   = STRIP_TOP + STRIP_H / 2; // 565
+
+  /* divider line */
+  {
+    const g = ctx.createLinearGradient(32, STRIP_TOP, W - 32, STRIP_TOP);
+    g.addColorStop(0, 'transparent');
+    g.addColorStop(0.5, 'rgba(201,168,76,0.45)');
+    g.addColorStop(1, 'transparent');
+    ctx.strokeStyle = g; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(32, STRIP_TOP); ctx.lineTo(W - 32, STRIP_TOP); ctx.stroke();
+  }
+
+  /* strip background */
+  ctx.fillStyle = 'rgba(255,255,255,0.015)';
+  ctx.fillRect(0, STRIP_TOP + 1, W, STRIP_H - 1);
+
+  /* book cover */
+  const covW = 58, covH = 78;
+  const covX = 32, covY = stripCY - covH / 2;
+  if (_imgBookCover) {
+    ctx.save();
+    ctx.beginPath(); ctx.roundRect(covX, covY, covW, covH, 3); ctx.clip();
+    ctx.drawImage(_imgBookCover, covX, covY, covW, covH);
+    ctx.restore();
+    ctx.strokeStyle = 'rgba(201,168,76,0.5)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.roundRect(covX, covY, covW, covH, 3); ctx.stroke();
+  }
+
+  /* author photo (circle) */
+  const phR = 30;
+  const phX = covX + covW + 20 + phR; // center x = 140
+  const phY = stripCY;
+  if (_imgAuthor) {
+    ctx.save();
+    ctx.beginPath(); ctx.arc(phX, phY, phR, 0, Math.PI * 2); ctx.clip();
+    ctx.drawImage(_imgAuthor, phX - phR, phY - phR, phR * 2, phR * 2);
+    ctx.restore();
+    ctx.strokeStyle = 'rgba(201,168,76,0.55)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(phX, phY, phR, 0, Math.PI * 2); ctx.stroke();
+  }
+
+  /* QR code */
+  const qrSize = 76;
+  const qrX = W - 32 - qrSize; // 572
+  const qrY = stripCY - qrSize / 2;
+  _drawQR(ctx, qrX, qrY, qrSize, 'https://networkingisking.net/assessment/');
+  ctx.strokeStyle = 'rgba(201,168,76,0.3)'; ctx.lineWidth = 1;
+  ctx.strokeRect(qrX - 1, qrY - 1, qrSize + 2, qrSize + 2);
+
+  /* center text */
+  const txtX  = phX + phR + 16; // 186
+  const txtCX = (txtX + qrX - 4) / 2; // ~379
+  ctx.textAlign = 'center';
+
+  ctx.fillStyle = '#c9a84c';
+  ctx.font = 'bold 12px Georgia, serif';
+  ctx.fillText('Cláudio Alcoforado', txtCX, stripCY - 22);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.68)';
+  ctx.font = '11px Georgia, serif';
+  ctx.fillText('Networking is KING', txtCX, stripCY - 6);
+
+  ctx.fillStyle = 'rgba(201,168,76,0.52)';
+  ctx.font = '9.5px monospace';
+  ctx.fillText('Faça o diagnóstico gratuito:', txtCX, stripCY + 11);
+
+  ctx.fillStyle = 'rgba(201,168,76,0.75)';
+  ctx.font = 'bold 9.5px monospace';
+  ctx.fillText('networkingisking.net/assessment', txtCX, stripCY + 26);
 }
 
 /* ══════════════════════════════════
