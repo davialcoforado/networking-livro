@@ -85,10 +85,12 @@ function initSupabase() {
 }
 
 // ── Salvar lead no Supabase (silencioso — nunca bloqueia a UI) ─
+// Usa upsert para evitar duplicatas — requer UNIQUE constraint em leads.email:
+//   ALTER TABLE leads ADD CONSTRAINT leads_email_unique UNIQUE (email);
 async function saveLead(data) {
   if (!db) return;
   try {
-    await db.from('leads').insert(data);
+    await db.from('leads').upsert(data, { onConflict: 'email' });
   } catch (_) {
     // falha silenciosa — não impede a experiência do usuário
   }

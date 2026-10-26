@@ -456,7 +456,7 @@
       </div>
 
       <div style="text-align:center;margin-top:48px;">
-        <a href="#fale-com-autor" class="btn-primary">Solicitar proposta</a>
+        <a href="#fale-com-autor" class="btn-primary" data-prefill-subject="palestra">Solicitar proposta</a>
       </div>
 
     </div>
@@ -802,6 +802,19 @@
         });
       });
     }
+
+    // Solicitar proposta → pre-preenche o assunto do formulário de contato
+    document.querySelectorAll('[data-prefill-subject]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var val = el.dataset.prefillSubject;
+        setTimeout(function() {
+          var sel = document.getElementById('c-subject');
+          if (sel) sel.value = val;
+          var input = document.getElementById('c-name');
+          if (input) input.focus();
+        }, 450);
+      });
+    });
 
     // Scroll reveal
     var items = document.querySelectorAll('.reveal');

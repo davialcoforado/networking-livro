@@ -116,6 +116,20 @@ function _drawQR(ctx, x, y, size, url) {
   } catch (_) {}
 }
 
+function _getImgDataURL(img) {
+  if (!img) return null;
+  try {
+    const c = document.createElement('canvas');
+    c.width  = img.naturalWidth;
+    c.height = img.naturalHeight;
+    c.getContext('2d').drawImage(img, 0, 0);
+    return c.toDataURL('image/jpeg', 0.75);
+  } catch (_) { return null; }
+}
+
+/* ─── evitar salvar o mesmo lead duas vezes na mesma sessão ─── */
+const _savedLeads = new Set();
+
 /* ─── ESTADO ─── */
 const state = {
   step: 1,
@@ -271,8 +285,10 @@ function bindStep2() {
     };
     state.quadrant = getQuadrant(state.scores.a, state.scores.b);
 
-    // Salva no Supabase em segundo plano (não bloqueia a UI)
-    if (typeof saveLead === 'function') {
+    // Salva no Supabase em segundo plano — evita duplicata na mesma sessão
+    const _emailKey = state.user.email.toLowerCase();
+    if (typeof saveLead === 'function' && !_savedLeads.has(_emailKey)) {
+      _savedLeads.add(_emailKey);
       saveLead(KingLogic.buildAssessmentLead(state.user, state.quadrant, state.scores, answers));
     }
 
@@ -775,6 +791,17 @@ function drawCertificate(canvas, user, qd, scores) {
   ctx.strokeStyle = gd(480); ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(80, 480); ctx.lineTo(W-80, 480); ctx.stroke();
 
+  /* ── book cover (bottom-left) ── */
+  if (_imgBookCover) {
+    const covX = 30, covY = 488, covW = 42, covH = 56;
+    ctx.save();
+    ctx.beginPath(); ctx.roundRect(covX, covY, covW, covH, 2); ctx.clip();
+    ctx.drawImage(_imgBookCover, covX, covY, covW, covH);
+    ctx.restore();
+    ctx.strokeStyle = 'rgba(201,168,76,0.45)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.roundRect(covX, covY, covW, covH, 2); ctx.stroke();
+  }
+
   /* ── date ── */
   const date = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
   ctx.font = '13px Georgia, serif';
@@ -813,26 +840,38 @@ function dlCanvas(canvas, filename) {
 }
 
 function dlCertPdf() {
-  const img = document.getElementById('cert-canvas').toDataURL('image/png');
-  const name = state.user.name;
+  let imgData;
+  try {
+    imgData = document.getElementById('cert-canvas').toDataURL('image/png');
+  } catch (_) {
+    dlCanvas(document.getElementById('cert-canvas'), `certificado-king-${firstName()}.png`);
+    return;
+  }
+
+  const win = window.open('', '_blank');
+  if (!win) {
+    // popup bloqueado — baixa como PNG
+    dlCanvas(document.getElementById('cert-canvas'), `certificado-king-${firstName()}.png`);
+    return;
+  }
+
   const html = `<!DOCTYPE html>
 <html><head><meta charset="UTF-8">
-<title>Certificado KING - ${name}</title>
+<title>Certificado KING - ${state.user.name}</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0d0d0d;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}
-img{width:100%;max-width:900px;display:block;margin:0 auto}
+body{background:#0d0d0d;display:flex;align-items:center;justify-content:center;min-height:100vh}
+img{width:100%;max-width:900px;display:block;margin:auto}
 @page{margin:0;size:landscape}
-@media print{body{background:#fff;padding:0}img{width:100%;max-width:100%}}
+@media print{body{padding:0}img{width:100%;max-width:100%}}
 </style>
 </head><body>
-<img src="${img}" alt="Certificado Networking is KING" />
-<script>setTimeout(()=>window.print(),600);<\/script>
+<img src="${imgData}" alt="Certificado Networking is KING"
+  onload="setTimeout(function(){window.print();},600)" />
 </body></html>`;
-  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-  const url  = URL.createObjectURL(blob);
-  window.open(url, '_blank');
-  setTimeout(() => URL.revokeObjectURL(url), 15000);
+
+  win.document.write(html);
+  win.document.close();
 }
 
 function firstName() {
@@ -866,6 +905,8 @@ function dlAnswers() {
       <td class="s"><b>${answers.b[i]}</b><br><span>${SCALE_FULL[answers.b[i]]}</span></td>
     </tr>`).join('');
 
+  const coverSrc = _getImgDataURL(_imgBookCover);
+
   const html = `<!DOCTYPE html>
 <html lang="pt-BR"><head>
 <meta charset="UTF-8">
@@ -894,10 +935,13 @@ td.s span{font-size:10px;color:#aaa;display:block;margin-top:1px}
 .ft{margin-top:32px;text-align:center;color:#bbb;font-size:11px}
 @media print{body{padding:20px}}
 </style></head><body>
-<div class="hd">
-  <div class="crown">♛</div>
-  <h1>Diagnóstico de Networking, O Estilo K.I.N.G.</h1>
-  <p class="sub">Networking is KING · Cláudio Alcoforado · ISBN 978-65-01-90453-5</p>
+<div class="hd" style="display:flex;align-items:flex-start;gap:20px;">
+  <div style="flex:1">
+    <div class="crown">♛</div>
+    <h1>Diagnóstico de Networking, O Estilo K.I.N.G.</h1>
+    <p class="sub">Networking is KING · Cláudio Alcoforado · ISBN 978-65-01-90453-5</p>
+  </div>
+  ${coverSrc ? `<img src="${coverSrc}" style="width:52px;height:69px;object-fit:cover;border-radius:3px;border:1px solid #c9a84c;flex-shrink:0;margin-top:4px" alt="Networking is KING" />` : ''}
 </div>
 <div class="prof">
   <h2>${user.name}</h2>
