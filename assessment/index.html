@@ -6,8 +6,6 @@
   <meta name="description" content="Descubra seu Estilo K.I.N.G. de networking. Diagnóstico gratuito baseado no livro Networking is KING de Cláudio Alcoforado." />
   <title>Diagnóstico K.I.N.G., Networking is KING</title>
   <link rel="icon" type="image/png" href="../img/favicon.png" />
-
-  <!-- Open Graph / LinkedIn preview -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://networkingisking.net/assessment/" />
   <meta property="og:title" content="Diagnóstico K.I.N.G. — Networking is KING · Cláudio Alcoforado" />
@@ -16,19 +14,15 @@
   <meta property="og:site_name" content="Networking is KING" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assessment.css" />
 </head>
 <body>
 
-  <!-- ══ HEADER ══ -->
   <header class="a-header">
     <div class="a-header-left">
-      <a href="../" class="a-back-link">← Site</a>
-      <a href="../" class="a-logo">
-        <span class="a-crown">♛</span>
-        <span>Networking is <strong>KING</strong></span>
-      </a>
+      <a href="../" class="a-back-link" aria-label="Voltar ao site">←</a>
+      <a href="../" class="a-logo"><span class="a-crown">♛</span><span>Networking is <strong>KING</strong></span></a>
     </div>
     <nav class="a-stepper" aria-label="Progresso">
       <div class="a-dot active" data-step="1"><span>1</span><small>Cadastro</small></div>
@@ -43,49 +37,35 @@
 
   <main class="a-main">
 
-    <!-- ════════════════════════════════
-         PASSO 1 — CADASTRO (LGPD)
-    ════════════════════════════════ -->
+    <!-- PASSO 1 — CADASTRO -->
     <section class="a-step active" id="step-1">
       <div class="a-container">
         <div class="a-split">
 
-          <!-- coluna esquerda: intro -->
           <div class="a-col-left">
             <div class="a-tag">Diagnóstico gratuito</div>
-            <h1 class="a-h1">
-              Qual é o seu<br>
-              <em class="gold">Estilo K.I.N.G.?</em>
-            </h1>
-            <p class="a-lead">
-              Responda 12 afirmações e descubra onde você está no quadrante do networking,
-              com gráfico e certificado personalizados para baixar.
-            </p>
+            <h1 class="a-h1">Qual é o seu<br><em class="gold">Estilo K.I.N.G.?</em></h1>
+            <p class="a-lead">Responda 12 afirmações e descubra onde você está no quadrante do networking, com gráfico e certificado personalizados para baixar.</p>
 
-            <div class="a-chips">
-              <span>📊 Gráfico do seu perfil</span>
-              <span>📜 Certificado para download</span>
-              <span class="chip-highlight">🕐 Leva menos de 5 minutos</span>
-              <span>🔒 Dados protegidos pela LGPD</span>
-            </div>
-            <p class="a-time-note">Você consegue responder no intervalo de um café.</p>
+            <ul class="a-feats">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/><circle cx="16.5" cy="7.5" r="1.8"/></svg>Gráfico do seu perfil</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>Certificado para download</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>Leva menos de 5 minutos</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Dados protegidos pela LGPD</li>
+            </ul>
 
-            <!-- mini preview do quadrante -->
-            <div class="qp-wrap">
-              <div class="qp-grid">
-                <div class="qp-cell qp-ri">Relacional<br><small>Ingênuo</small></div>
-                <div class="qp-cell qp-sg">Estratégico<br><small>Generoso ♛</small></div>
-                <div class="qp-cell qp-is">Isolado</div>
-                <div class="qp-cell qp-ut">Utilitarista</div>
+            <div class="qprev" aria-hidden="true">
+              <span class="qprev-y">Postura →</span>
+              <div class="qprev-grid">
+                <div class="qprev-cell">Relacional<small>Ingênuo</small></div>
+                <div class="qprev-cell qprev-sg">Estratégico<small>Generoso ♛</small></div>
+                <div class="qprev-cell">Isolado</div>
+                <div class="qprev-cell">Utilitarista</div>
               </div>
-              <div class="qp-axis-x">
-                <span>← Baixa Intencionalidade</span>
-                <span>Alta →</span>
-              </div>
+              <span class="qprev-x">Intencionalidade →</span>
             </div>
           </div>
 
-          <!-- coluna direita: formulário -->
           <div class="a-col-right">
             <div class="a-card">
               <h2 class="a-card-title">Seus dados</h2>
@@ -93,59 +73,40 @@
 
               <form id="reg-form" novalidate>
                 <input type="text" name="website" id="reg-honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
-
                 <div class="f-group">
                   <label for="f-name">Nome completo <span class="f-req">*</span></label>
-                  <input type="text" id="f-name" name="name" placeholder="Seu nome completo" autocomplete="name" required />
+                  <input type="text" id="f-name" name="name" placeholder="Como deve aparecer no certificado" autocomplete="name" required />
                   <span class="f-err" id="e-name"></span>
                 </div>
-
                 <div class="f-group">
                   <label for="f-email">Email <span class="f-req">*</span></label>
                   <input type="email" id="f-email" name="email" placeholder="seu@email.com" autocomplete="email" required />
                   <span class="f-err" id="e-email"></span>
                 </div>
-
                 <div class="f-group">
                   <label for="f-whatsapp">WhatsApp <span class="f-req">*</span></label>
-                  <input type="tel" id="f-whatsapp" name="whatsapp" placeholder="(11) 99999-9999" maxlength="15" required />
+                  <input type="tel" id="f-whatsapp" name="whatsapp" placeholder="(81) 99999-9999" maxlength="15" autocomplete="tel" required />
                   <span class="f-err" id="e-whatsapp"></span>
                 </div>
-
                 <div class="f-row">
                   <div class="f-group">
                     <label for="f-city">Cidade</label>
-                    <input type="text" id="f-city" name="city" placeholder="São Paulo" />
+                    <input type="text" id="f-city" name="city" placeholder="Recife" autocomplete="address-level2" />
                   </div>
                   <div class="f-group">
                     <label for="f-country">País</label>
-                    <input type="text" id="f-country" name="country" placeholder="Brasil" />
+                    <input type="text" id="f-country" name="country" placeholder="Brasil" autocomplete="country-name" />
                   </div>
                 </div>
-
                 <div class="f-group f-lgpd">
                   <label class="f-check">
                     <input type="checkbox" id="f-lgpd" required />
-                    <span class="f-check-txt">
-                      Concordo com o tratamento dos meus dados para geração do diagnóstico,
-                      emissão do certificado e recebimento de conteúdos relacionados ao
-                      <em>Networking is KING</em>, conforme a
-                      <strong>Lei Geral de Proteção de Dados (LGPD)</strong>.
-                    </span>
+                    <span class="f-check-txt">Concordo com o tratamento dos meus dados para geração do diagnóstico, emissão do certificado e recebimento de conteúdos relacionados ao <em>Networking is KING</em>, conforme a <strong>Lei Geral de Proteção de Dados (LGPD)</strong>.</span>
                   </label>
                   <span class="f-err" id="e-lgpd"></span>
-                  <p class="f-lgpd-del">
-                    Deseja remover seus dados?
-                    <a href="mailto:privacidade@networkingisking.net?subject=Solicitação de exclusão de cadastro">
-                      Clique aqui para solicitar exclusão do cadastro.
-                    </a>
-                  </p>
+                  <p class="f-lgpd-del">Deseja remover seus dados? <a href="mailto:privacidade@networkingisking.net?subject=Solicitação de exclusão de cadastro">Solicite a exclusão do cadastro.</a></p>
                 </div>
-
-                <button type="submit" class="a-btn-primary">
-                  Iniciar diagnóstico →
-                </button>
-
+                <button type="submit" class="a-btn-primary">Iniciar diagnóstico →</button>
               </form>
             </div>
           </div>
@@ -154,157 +115,112 @@
       </div>
     </section>
 
-
-    <!-- ════════════════════════════════
-         PASSO 2 — QUESTIONÁRIO
-    ════════════════════════════════ -->
+    <!-- PASSO 2 — QUESTIONÁRIO -->
     <section class="a-step" id="step-2">
-      <div class="a-container a-container--wide">
+      <div class="a-container">
 
         <div class="quiz-top">
           <h2 class="a-h2">Diagnóstico de Networking</h2>
-          <p class="a-lead">
-            Para cada afirmação, escolha de <strong>1</strong> (discordo totalmente)
-            a <strong>5</strong> (concordo totalmente).
-          </p>
+          <p class="a-lead">Para cada afirmação, escolha de <strong>1</strong> (discordo totalmente) a <strong>5</strong> (concordo totalmente).</p>
+        </div>
+
+        <div class="qprog" aria-live="polite">
+          <div class="qprog-bar"><div class="qprog-fill" id="quiz-fill"></div></div>
+          <span id="quiz-count">0 de 12</span>
         </div>
 
         <form id="quiz-form" novalidate>
-
-          <!-- Bloco A -->
           <div class="quiz-block">
             <div class="quiz-block-head">
               <span class="quiz-letter">A</span>
-              <div>
-                <strong>Intencionalidade do Relacionamento</strong>
-                <span>Como você planeja e cultiva sua rede</span>
-              </div>
+              <div><strong>Intencionalidade do Relacionamento</strong><span>Como você planeja e cultiva sua rede</span></div>
             </div>
             <div id="q-block-a"></div>
           </div>
-
-          <!-- Bloco B -->
           <div class="quiz-block">
             <div class="quiz-block-head">
               <span class="quiz-letter">B</span>
-              <div>
-                <strong>Postura Relacional</strong>
-                <span>Como você impacta as pessoas ao seu redor</span>
-              </div>
+              <div><strong>Postura Relacional</strong><span>Como você impacta as pessoas ao seu redor</span></div>
             </div>
             <div id="q-block-b"></div>
           </div>
-
-          <div class="quiz-legend">
-            <span>1 = Discordo totalmente</span>
-            <span>2 = Discordo parcialmente</span>
-            <span>3 = Neutro</span>
-            <span>4 = Concordo parcialmente</span>
-            <span>5 = Concordo totalmente</span>
-          </div>
-
           <div class="quiz-submit">
             <p class="quiz-err" id="quiz-err"></p>
-            <button type="submit" class="a-btn-primary">
-              Ver meu resultado →
-            </button>
+            <button type="submit" class="a-btn-primary">Ver meu resultado →</button>
           </div>
-
         </form>
 
       </div>
     </section>
 
-
-    <!-- ════════════════════════════════
-         PASSO 3 — RESULTADO + GRÁFICO
-    ════════════════════════════════ -->
+    <!-- PASSO 3 — RESULTADO -->
     <section class="a-step" id="step-3">
       <div class="a-container a-container--wide">
-
-        <div class="res-top">
-          <p class="res-tag" id="res-tag"></p>
-          <h2 class="res-name" id="res-name"></h2>
-          <p class="res-label" id="res-label"></p>
-        </div>
-
         <div class="res-body">
           <div class="res-info">
+            <p class="res-tag" id="res-tag"></p>
+            <h2 class="res-name" id="res-name"></h2>
+            <p class="res-label" id="res-label"></p>
             <p class="res-desc" id="res-desc"></p>
             <div id="res-scores"></div>
+            <div class="res-actions">
+              <button class="a-btn-primary" id="btn-to-cert">Emitir meu certificado →</button>
+              <button class="a-btn-outline" id="btn-dl-chart">Baixar gráfico (PNG)</button>
+            </div>
           </div>
           <div class="res-chart-col">
             <canvas id="chart-canvas"></canvas>
-            <button class="a-btn-outline" id="btn-dl-chart">⬇ Baixar gráfico (PNG)</button>
           </div>
         </div>
 
-        <div class="res-cta">
-          <button class="a-btn-primary" id="btn-to-cert">
-            Emitir meu certificado →
-          </button>
-        </div>
-
         <div class="res-book-cta">
-          <p class="res-book-eyebrow">Quer aprimorar suas habilidades de networking?</p>
-          <p class="res-book-text">
-            No livro <em>Networking is KING</em>, Cláudio Alcoforado compartilha conhecimentos e estratégias
-            para fortalecer suas conexões, ampliar sua influência e transformar relacionamentos em oportunidades.
-          </p>
-          <a href="https://networkingisking.net/#livro" class="a-btn-book-cta">
-            Garanta seu exemplar →
-          </a>
+          <img src="../img/book-cover.jpg" alt="Capa do livro Networking is KING" />
+          <div>
+            <p class="res-book-eyebrow">Quer aprimorar suas habilidades de networking?</p>
+            <p class="res-book-text">No livro <em>Networking is KING</em>, Cláudio Alcoforado compartilha conhecimentos e estratégias para fortalecer suas conexões, ampliar sua influência e transformar relacionamentos em oportunidades.</p>
+            <a href="../#contato" class="a-btn-book-cta">Garanta seu exemplar →</a>
+          </div>
         </div>
-
       </div>
     </section>
 
-
-    <!-- ════════════════════════════════
-         PASSO 4 — CERTIFICADO + DOWNLOADS
-    ════════════════════════════════ -->
+    <!-- PASSO 4 — CERTIFICADO -->
     <section class="a-step" id="step-4">
       <div class="a-container a-container--wide">
-
         <div class="cert-top">
           <div class="a-tag">Parabéns, <span id="cert-fname"></span>!</div>
           <h2 class="a-h2">Seu certificado está pronto</h2>
           <p class="a-lead">Baixe, imprima e compartilhe com sua rede.</p>
         </div>
 
-        <div class="cert-canvas-wrap">
-          <canvas id="cert-canvas"></canvas>
-        </div>
+        <div class="cert-canvas-wrap"><canvas id="cert-canvas"></canvas></div>
 
-        <div class="dl-grid">
-          <button class="dl-card" id="btn-dl-chart2">
-            <span class="dl-icon">📊</span>
-            <strong>Gráfico</strong>
-            <small>Download PNG</small>
-          </button>
-          <button class="dl-card" id="btn-dl-answers">
-            <span class="dl-icon">📋</span>
-            <strong>Questionário</strong>
-            <small>Download PDF</small>
-          </button>
-          <button class="dl-card" id="btn-dl-cert">
-            <span class="dl-icon">📜</span>
-            <strong>Certificado</strong>
-            <small>Download PDF</small>
-          </button>
-        </div>
-
-        <div class="share-row">
-          <span class="share-lbl">Compartilhar:</span>
-          <button class="share-li" id="btn-share-li">LinkedIn</button>
-          <button class="share-wpp" id="btn-share-wpp">WhatsApp</button>
+        <div class="cert-actions">
+          <div class="dl-grid">
+            <button class="dl-card" id="btn-dl-cert">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+              <span><strong>Certificado</strong><small>PDF</small></span>
+            </button>
+            <button class="dl-card" id="btn-dl-chart2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/><circle cx="16.5" cy="7.5" r="1.8"/></svg>
+              <span><strong>Gráfico</strong><small>PNG</small></span>
+            </button>
+            <button class="dl-card" id="btn-dl-answers">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+              <span><strong>Respostas</strong><small>PDF</small></span>
+            </button>
+          </div>
+          <div class="share-row">
+            <span class="share-lbl">Compartilhar</span>
+            <button class="share-li" id="btn-share-li">LinkedIn</button>
+            <button class="share-wpp" id="btn-share-wpp">WhatsApp</button>
+          </div>
         </div>
 
         <div class="cert-back">
-          <a href="../" class="a-btn-primary cert-back-primary">← Voltar ao site</a>
+          <a href="../" class="a-btn-ghost">← Voltar ao site</a>
           <button class="a-btn-ghost" id="btn-restart">Refazer diagnóstico</button>
         </div>
-
       </div>
     </section>
 
@@ -313,10 +229,7 @@
   <div id="toast" class="toast" aria-live="polite"></div>
 
   <footer class="a-footer">
-    <div class="a-container">
-      <p>♛ <strong>Networking is KING</strong> · Cláudio Alcoforado · <em>Networkaholic</em></p>
-      <p>ISBN 978-65-01-90453-5 · <a href="../">networkingisking.net</a></p>
-    </div>
+    <p>♛ <strong>Networking is KING</strong> · Cláudio Alcoforado · ISBN 978-65-01-90453-5 · <a href="../">networkingisking.net</a></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>

@@ -50,27 +50,27 @@ const Q = {
   },
   ri: {
     key: 'ri',
-    tag: '♡ Relacional',
+    tag: 'Relacional',
     name: 'Relacional / Ingênuo',
     label: 'Generoso, mas pouco intencional',
     desc: 'Você se relaciona com autenticidade e gera impacto genuíno nas pessoas. Tem foco no outro e forte presença relacional. Para alcançar a Atitude King, desenvolva mais intencionalidade: planeje sua rede com clareza de propósito e objetivos.',
-    color: '#64b5f6'
+    color: '#f2f2f2'
   },
   ut: {
     key: 'ut',
-    tag: '♟ Estratégico',
+    tag: 'Estratégico',
     name: 'Utilitarista',
     label: 'Intencional, mas pouco generoso',
     desc: 'Você tem clareza estratégica sobre sua rede e age com foco. Para alcançar a Atitude King, pratique a generosidade: compartilhe, ajude e construa confiança sem esperar retorno imediato. Networking real vai além da troca direta.',
-    color: '#81c784'
+    color: '#f2f2f2'
   },
   is: {
     key: 'is',
-    tag: '◎ Em Desenvolvimento',
+    tag: 'Em desenvolvimento',
     name: 'Isolado',
     label: 'Networking ainda em construção',
     desc: 'Você está no início da jornada do networking. Há um enorme espaço para crescimento nos dois eixos: intencionalidade e postura relacional. Este livro foi escrito exatamente para quem quer construir uma rede sólida e autêntica.',
-    color: '#9e9e9e'
+    color: '#f2f2f2'
   }
 };
 
@@ -80,6 +80,9 @@ const _formLoadedAt = Date.now();
 /* ─── PRE-LOAD IMAGES FOR CHART STRIP ─── */
 let _imgBookCover = null;
 let _imgAuthor    = null;
+let _imgCrown     = null;
+/* Quando tiver a coroa 3D da capa em PNG transparente, salve em img/crown.png e troque null por '../img/crown.png' */
+const CROWN_SRC = null;
 
 function _loadImg(src) {
   return new Promise(res => {
@@ -91,11 +94,15 @@ function _loadImg(src) {
 }
 
 async function preloadChartImages() {
-  [_imgBookCover, _imgAuthor] = await Promise.all([
+  [_imgBookCover, _imgAuthor, _imgCrown] = await Promise.all([
     _loadImg('../img/book-cover.jpg'),
-    _loadImg('../img/author-claudio.png')
+    _loadImg('../img/author-claudio.png'),
+    CROWN_SRC ? _loadImg(CROWN_SRC) : Promise.resolve(null)
   ]);
 }
+const _imagesReady = preloadChartImages();
+const _fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+function whenAssetsReady(fn) { Promise.all([_imagesReady, _fontsReady]).then(fn, fn); }
 
 function _drawQR(ctx, x, y, size, url) {
   if (typeof qrcode === 'undefined') return;
@@ -144,7 +151,6 @@ const state = {
 ══════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof initSupabase === 'function') initSupabase();
-  preloadChartImages();
   renderQuestions();
   bindStep1();
   bindStep2();
@@ -256,7 +262,20 @@ function setErr(id, msg) {
 /* ══════════════════════════════════
    PASSO 2 — QUESTIONÁRIO
 ══════════════════════════════════ */
+function updateQuizProgress() {
+  const n = document.querySelectorAll('#quiz-form input[type="radio"]:checked').length;
+  const fill = document.getElementById('quiz-fill');
+  const count = document.getElementById('quiz-count');
+  if (fill) fill.style.width = (n / 12 * 100) + '%';
+  if (count) count.textContent = n + ' de 12';
+  document.querySelectorAll('.q-item').forEach(item => {
+    const done = !!item.querySelector('input:checked');
+    item.classList.toggle('answered', done);
+  });
+}
+
 function bindStep2() {
+  document.getElementById('quiz-form').addEventListener('change', updateQuizProgress);
   document.getElementById('quiz-form').addEventListener('submit', e => {
     e.preventDefault();
 
@@ -348,7 +367,7 @@ function buildResults() {
       </div>
     </div>`;
 
-  drawChart(document.getElementById('chart-canvas'), a, b, user.name);
+  whenAssetsReady(() => drawChart(document.getElementById('chart-canvas'), a, b, user.name));
 }
 
 function bindStep3() {
@@ -377,230 +396,111 @@ function drawChart(canvas, a, b, name) {
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
-  const M = { top: 58, right: 40, bottom: 82, left: 82 };
-  const cW = W - M.left - M.right;
-  const cH = 500 - M.top - M.bottom; // fixed at 360 — strip is drawn below y=500
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS  = "Inter, system-ui, sans-serif";
+  const GOLD = '#c9a84c', GOLD_L = '#e2c06a', T1 = '#f2f2f2', T2 = '#c3cbe0', T3 = '#9aa8cc', BD = '#213e70';
+  const qd = Q[KingLogic.getQuadrantKey(a, b)];
+  const first = (name || 'Você').trim().split(/\s+/)[0];
+  const spaced = (v) => { if ('letterSpacing' in ctx) ctx.letterSpacing = v; };
 
-  /* 6–30 scale mapping (min 6×1, max 6×5 — threshold 18 fica exatamente no centro) */
-  const SMIN = 6, SRANGE = 24;
-  const px = v => M.left + ((v - SMIN) / SRANGE) * cW;
-  const py = v => M.top  + cH - ((v - SMIN) / SRANGE) * cH;
-  const thX = px(THRESHOLD);
-  const thY = py(THRESHOLD);
-
-  /* ── background ── */
-  ctx.fillStyle = '#0d0d0d';
+  /* fundo */
+  ctx.fillStyle = '#0b1530';
   ctx.fillRect(0, 0, W, H);
 
-  /* thin border */
-  ctx.strokeStyle = 'rgba(201,168,76,0.22)';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(5, 5, W - 10, H - 10);
+  /* cabeçalho */
+  ctx.textAlign = 'left';
+  ctx.fillStyle = GOLD; ctx.font = '600 10px ' + SANS; spaced('0.18em');
+  ctx.fillText('DIAGNÓSTICO K.I.N.G.  ·  NETWORKING IS KING', 32, 40); spaced('0px');
+  ctx.fillStyle = qd.key === 'sg' ? GOLD : T1; ctx.font = '700 24px ' + SERIF;
+  ctx.fillText(qd.name, 32, 72);
+  ctx.textAlign = 'right';
+  ctx.fillStyle = T1; ctx.font = '600 14px ' + SANS;
+  ctx.fillText(first, W - 32, 44);
+  ctx.fillStyle = T3; ctx.font = '400 11px ' + SANS;
+  ctx.fillText('Intencionalidade ' + a + '/30  ·  Postura ' + b + '/30', W - 32, 66);
 
-  /* ── quadrant fills ── */
-  const fills = [
-    { x: thX, y: M.top,    w: M.left+cW-thX, h: thY-M.top,     c: 'rgba(201,168,76,0.10)' }, /* SG top-right */
-    { x: M.left, y: M.top, w: thX-M.left,    h: thY-M.top,     c: 'rgba(100,181,246,0.05)' }, /* RI top-left */
-    { x: thX, y: thY,      w: M.left+cW-thX, h: M.top+cH-thY,  c: 'rgba(129,199,132,0.05)' }, /* UT bot-right */
-    { x: M.left, y: thY,   w: thX-M.left,    h: M.top+cH-thY,  c: 'rgba(158,158,158,0.03)' }  /* IS bot-left */
-  ];
-  fills.forEach(({ x, y, w, h, c }) => { ctx.fillStyle = c; ctx.fillRect(x, y, w, h); });
+  /* área do gráfico */
+  const L = 72, T = 100, R = W - 32, B = 420, cW = R - L, cH = B - T;
+  const SMIN = 6, SR = 24;
+  const px = v => L + ((v - SMIN) / SR) * cW;
+  const py = v => B - ((v - SMIN) / SR) * cH;
+  const tx = px(THRESHOLD), ty = py(THRESHOLD), g = 4;
 
-  /* ── grid ── */
-  ctx.strokeStyle = 'rgba(201,168,76,0.09)';
-  ctx.lineWidth = 1;
-  ctx.setLineDash([3, 8]);
+  const LBL = { sg: ['ESTRATÉGICO', 'GENEROSO  ♛'], ri: ['RELACIONAL', 'INGÊNUO'], ut: ['UTILITARISTA'], is: ['ISOLADO'] };
+  [
+    { k: 'ri', x: L,        y: T,        w: tx - L - g / 2, h: ty - T - g / 2 },
+    { k: 'sg', x: tx + g/2, y: T,        w: R - tx - g / 2, h: ty - T - g / 2 },
+    { k: 'is', x: L,        y: ty + g/2, w: tx - L - g / 2, h: B - ty - g / 2 },
+    { k: 'ut', x: tx + g/2, y: ty + g/2, w: R - tx - g / 2, h: B - ty - g / 2 }
+  ].forEach(c => {
+    const on = c.k === qd.key, king = c.k === 'sg';
+    ctx.fillStyle = king ? (on ? 'rgba(201,168,76,0.24)' : 'rgba(201,168,76,0.10)') : (on ? '#1c3566' : '#132449');
+    ctx.beginPath(); ctx.roundRect(c.x, c.y, c.w, c.h, 4); ctx.fill();
+    ctx.strokeStyle = on ? (king ? GOLD : T3) : (king ? 'rgba(201,168,76,0.35)' : BD);
+    ctx.lineWidth = on ? 1.5 : 1; ctx.stroke();
+    ctx.fillStyle = king ? GOLD : (on ? T1 : T3);
+    ctx.font = '600 10px ' + SANS; ctx.textAlign = 'left'; spaced('0.14em');
+    LBL[c.k].forEach((ln, i) => ctx.fillText(ln, c.x + 14, c.y + 24 + i * 15));
+    spaced('0px');
+  });
+
+  /* escalas */
+  ctx.fillStyle = T3; ctx.font = '500 10px ' + SANS;
   [6, 12, 18, 24, 30].forEach(v => {
-    ctx.beginPath(); ctx.moveTo(px(v), M.top);    ctx.lineTo(px(v), M.top + cH); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(M.left, py(v));   ctx.lineTo(M.left + cW, py(v)); ctx.stroke();
+    ctx.textAlign = 'center'; ctx.fillText(v, px(v), B + 18);
+    ctx.textAlign = 'right';  ctx.fillText(v, L - 10, py(v) + 3);
   });
-  ctx.setLineDash([]);
+  ctx.fillStyle = T2; ctx.font = '600 10px ' + SANS; ctx.textAlign = 'center'; spaced('0.14em');
+  ctx.fillText('INTENCIONALIDADE DO RELACIONAMENTO  →', L + cW / 2, B + 40);
+  ctx.save(); ctx.translate(28, T + cH / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('POSTURA RELACIONAL  →', 0, 0); ctx.restore();
+  spaced('0px');
 
-  /* ── threshold lines ── */
-  ctx.strokeStyle = 'rgba(201,168,76,0.48)';
-  ctx.lineWidth = 1.5;
-  ctx.setLineDash([8, 5]);
-  ctx.beginPath(); ctx.moveTo(thX, M.top - 4); ctx.lineTo(thX, M.top + cH); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(M.left, thY); ctx.lineTo(M.left + cW + 4, thY); ctx.stroke();
-  ctx.setLineDash([]);
-
-  /* ── axes ── */
-  ctx.strokeStyle = '#c9a84c';
-  ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(M.left, M.top - 10); ctx.lineTo(M.left, M.top + cH); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(M.left, M.top + cH); ctx.lineTo(M.left + cW + 10, M.top + cH); ctx.stroke();
-
-  /* arrowheads */
-  ctx.fillStyle = '#c9a84c';
-  ctx.beginPath(); ctx.moveTo(M.left - 4, M.top - 2); ctx.lineTo(M.left, M.top - 12); ctx.lineTo(M.left + 4, M.top - 2); ctx.fill();
-  ctx.beginPath(); ctx.moveTo(M.left + cW + 2, M.top + cH - 4); ctx.lineTo(M.left + cW + 12, M.top + cH); ctx.lineTo(M.left + cW + 2, M.top + cH + 4); ctx.fill();
-
-  /* ── tick labels ── */
-  ctx.fillStyle = 'rgba(201,168,76,0.55)';
-  ctx.font = '11px monospace';
-  [6, 12, 18, 24, 30].forEach(v => {
-    ctx.textAlign = 'center';
-    ctx.fillText(v, px(v), M.top + cH + 17);
-    ctx.textAlign = 'right';
-    ctx.fillText(v, M.left - 8, py(v) + 4);
-  });
-
-  /* ── axis labels ── */
-  ctx.fillStyle = '#c9a84c';
-  ctx.font = 'bold 11px Georgia, serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('INTENCIONALIDADE DO RELACIONAMENTO', M.left + cW / 2, 490);
-
-  ctx.save();
-  ctx.translate(14, M.top + cH / 2);
-  ctx.rotate(-Math.PI / 2);
-  ctx.fillText('POSTURA RELACIONAL', 0, 0);
-  ctx.restore();
-
-  /* Y-axis sub-labels */
-  ctx.font = '9.5px Georgia, serif';
-  ctx.fillStyle = 'rgba(201,168,76,0.38)';
-  ctx.save(); ctx.translate(30, M.top + cH * 0.25); ctx.rotate(-Math.PI / 2); ctx.fillText('Foco no Outro', 0, 0); ctx.restore();
-  ctx.save(); ctx.translate(30, M.top + cH * 0.75); ctx.rotate(-Math.PI / 2); ctx.fillText('Foco em si', 0, 0); ctx.restore();
-
-  /* X-axis sub-labels */
-  ctx.fillStyle = 'rgba(201,168,76,0.38)';
-  ctx.font = '9.5px Georgia, serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('Baixa', M.left + cW * 0.25, M.top + cH + 32);
-  ctx.fillText('Alta',  M.left + cW * 0.75, M.top + cH + 32);
-
-  /* ── quadrant labels ── */
-  const ql = [
-    { lines: ['ESTRATÉGICO', 'GENEROSO ♛'], cx: (thX + M.left + cW) / 2, cy: (M.top + thY) / 2,    c: 'rgba(201,168,76,0.72)' },
-    { lines: ['RELACIONAL',  'INGÊNUO'],    cx: (M.left + thX) / 2,       cy: (M.top + thY) / 2,    c: 'rgba(100,181,246,0.55)' },
-    { lines: ['UTILITARISTA'],              cx: (thX + M.left + cW) / 2,  cy: (thY + M.top + cH) / 2, c: 'rgba(129,199,132,0.52)' },
-    { lines: ['ISOLADO'],                   cx: (M.left + thX) / 2,       cy: (thY + M.top + cH) / 2, c: 'rgba(158,158,158,0.42)' }
-  ];
-
-  ctx.font = 'bold 11px Georgia, serif';
-  ql.forEach(({ lines, cx, cy, c }) => {
-    ctx.fillStyle = c;
-    ctx.textAlign = 'center';
-    const offset = ((lines.length - 1) * 17) / 2;
-    lines.forEach((line, i) => ctx.fillText(line, cx, cy - offset + i * 17));
-  });
-
-  /* ── title ── */
-  ctx.fillStyle = 'rgba(201,168,76,0.75)';
-  ctx.font = 'bold 12px Georgia, serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('O Estilo K.I.N.G.  ·  Networking is KING  ·  Cláudio Alcoforado', W / 2, 32);
-
-  /* ── user dot ── */
+  /* ponto do participante */
   const dx = px(a), dy = py(b);
-
-  /* glow */
-  const glow = ctx.createRadialGradient(dx, dy, 0, dx, dy, 28);
-  glow.addColorStop(0, 'rgba(201,168,76,0.62)');
-  glow.addColorStop(1, 'rgba(201,168,76,0)');
-  ctx.fillStyle = glow;
-  ctx.beginPath(); ctx.arc(dx, dy, 28, 0, Math.PI * 2); ctx.fill();
-
-  /* dot */
-  ctx.fillStyle = '#c9a84c';
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 2;
+  const glow = ctx.createRadialGradient(dx, dy, 0, dx, dy, 30);
+  glow.addColorStop(0, 'rgba(226,192,106,0.55)');
+  glow.addColorStop(1, 'rgba(226,192,106,0)');
+  ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(dx, dy, 30, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = GOLD; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.arc(dx, dy, 9, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-  /* name label */
-  const lbl = (name || 'Você').split(' ')[0];
-  ctx.font = 'bold 12px Inter, sans-serif';
-  const tw = ctx.measureText(lbl).width + 22;
-  const lx = dx - tw / 2, ly = dy - 34;
+  ctx.font = '600 12px ' + SANS;
+  const tw = ctx.measureText(first).width + 22;
+  const lx = Math.min(Math.max(dx - tw / 2, L + 4), R - tw - 4);
+  let ly = dy - 42; if (ly < T + 4) ly = dy + 18;
+  ctx.fillStyle = '#0b1530'; ctx.strokeStyle = GOLD; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.roundRect(lx, ly, tw, 24, 12); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = GOLD_L; ctx.textAlign = 'center';
+  ctx.fillText(first, lx + tw / 2, ly + 16);
 
-  ctx.fillStyle = 'rgba(0,0,0,0.82)';
-  ctx.beginPath();
-  ctx.roundRect(lx, ly - 14, tw, 20, 8);
-  ctx.fill();
+  /* faixa inferior: capa · autor · texto · QR */
+  const SX = 16, SY = 476, SW = W - 32, SH = H - SY - 16, cy = SY + SH / 2;
+  ctx.fillStyle = '#0f1e40'; ctx.strokeStyle = BD; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.roundRect(SX, SY, SW, SH, 6); ctx.fill(); ctx.stroke();
 
-  ctx.fillStyle = '#e2c06a';
-  ctx.textAlign = 'center';
-  ctx.fillText(lbl, dx, ly);
-
-  /* score annotation */
-  ctx.font = '10px monospace';
-  ctx.fillStyle = 'rgba(201,168,76,0.58)';
-  ctx.textAlign = 'center';
-  ctx.fillText(`(${a}, ${b})`, dx, dy + 25);
-
-  /* ── bottom strip: capa · autor · texto · QR ── */
-  const STRIP_TOP = 500;
-  const STRIP_H   = 130;
-  const stripCY   = STRIP_TOP + STRIP_H / 2; // 565
-
-  /* divider line */
-  {
-    const g = ctx.createLinearGradient(32, STRIP_TOP, W - 32, STRIP_TOP);
-    g.addColorStop(0, 'transparent');
-    g.addColorStop(0.5, 'rgba(201,168,76,0.45)');
-    g.addColorStop(1, 'transparent');
-    ctx.strokeStyle = g; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(32, STRIP_TOP); ctx.lineTo(W - 32, STRIP_TOP); ctx.stroke();
-  }
-
-  /* strip background */
-  ctx.fillStyle = 'rgba(255,255,255,0.015)';
-  ctx.fillRect(0, STRIP_TOP + 1, W, STRIP_H - 1);
-
-  /* book cover */
-  const covW = 58, covH = 78;
-  const covX = 32, covY = stripCY - covH / 2;
+  const covW = 54, covH = 72, covX = 36, covY = cy - covH / 2;
   if (_imgBookCover) {
-    ctx.save();
-    ctx.beginPath(); ctx.roundRect(covX, covY, covW, covH, 3); ctx.clip();
-    ctx.drawImage(_imgBookCover, covX, covY, covW, covH);
-    ctx.restore();
-    ctx.strokeStyle = 'rgba(201,168,76,0.5)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.roundRect(covX, covY, covW, covH, 3); ctx.stroke();
+    ctx.save(); ctx.beginPath(); ctx.roundRect(covX, covY, covW, covH, 3); ctx.clip();
+    ctx.drawImage(_imgBookCover, covX, covY, covW, covH); ctx.restore();
   }
-
-  /* author photo (circle) */
-  const phR = 30;
-  const phX = covX + covW + 20 + phR; // center x = 140
-  const phY = stripCY;
+  const phR = 28, phX = covX + covW + 18 + phR;
   if (_imgAuthor) {
-    ctx.save();
-    ctx.beginPath(); ctx.arc(phX, phY, phR, 0, Math.PI * 2); ctx.clip();
-    ctx.drawImage(_imgAuthor, phX - phR, phY - phR, phR * 2, phR * 2);
-    ctx.restore();
-    ctx.strokeStyle = 'rgba(201,168,76,0.55)'; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.arc(phX, phY, phR, 0, Math.PI * 2); ctx.stroke();
+    ctx.save(); ctx.beginPath(); ctx.arc(phX, cy, phR, 0, Math.PI * 2); ctx.clip();
+    ctx.drawImage(_imgAuthor, phX - phR, cy - phR, phR * 2, phR * 2); ctx.restore();
+    ctx.strokeStyle = 'rgba(201,168,76,0.6)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(phX, cy, phR, 0, Math.PI * 2); ctx.stroke();
   }
+  const txX = phX + phR + 18;
+  ctx.textAlign = 'left';
+  ctx.fillStyle = T1; ctx.font = '700 15px ' + SERIF; ctx.fillText('Cláudio Alcoforado', txX, cy - 16);
+  ctx.fillStyle = T2; ctx.font = '400 12px ' + SANS; ctx.fillText('Autor de Networking is KING', txX, cy + 2);
+  ctx.fillStyle = T3; ctx.font = '400 11px ' + SANS; ctx.fillText('Faça o diagnóstico gratuito', txX, cy + 22);
+  ctx.fillStyle = GOLD; ctx.font = '600 11px ' + SANS; ctx.fillText('networkingisking.net/assessment', txX, cy + 37);
 
-  /* QR code */
-  const qrSize = 76;
-  const qrX = W - 32 - qrSize; // 572
-  const qrY = stripCY - qrSize / 2;
-  _drawQR(ctx, qrX, qrY, qrSize, 'https://networkingisking.net/assessment/');
-  ctx.strokeStyle = 'rgba(201,168,76,0.3)'; ctx.lineWidth = 1;
-  ctx.strokeRect(qrX - 1, qrY - 1, qrSize + 2, qrSize + 2);
-
-  /* center text */
-  const txtX  = phX + phR + 16; // 186
-  const txtCX = (txtX + qrX - 4) / 2; // ~379
-  ctx.textAlign = 'center';
-
-  ctx.fillStyle = '#c9a84c';
-  ctx.font = 'bold 12px Georgia, serif';
-  ctx.fillText('Cláudio Alcoforado', txtCX, stripCY - 22);
-
-  ctx.fillStyle = 'rgba(255,255,255,0.68)';
-  ctx.font = '11px Georgia, serif';
-  ctx.fillText('Networking is KING', txtCX, stripCY - 6);
-
-  ctx.fillStyle = 'rgba(201,168,76,0.52)';
-  ctx.font = '9.5px monospace';
-  ctx.fillText('Faça o diagnóstico gratuito:', txtCX, stripCY + 11);
-
-  ctx.fillStyle = 'rgba(201,168,76,0.75)';
-  ctx.font = 'bold 9.5px monospace';
-  ctx.fillText('networkingisking.net/assessment', txtCX, stripCY + 26);
+  const qr = 80, qrX = W - 36 - qr, qrY = cy - qr / 2;
+  ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.roundRect(qrX - 5, qrY - 5, qr + 10, qr + 10, 4); ctx.fill();
+  _drawQR(ctx, qrX, qrY, qr, 'https://networkingisking.net/assessment/');
 }
 
 /* ══════════════════════════════════
@@ -608,6 +508,7 @@ function drawChart(canvas, a, b, name) {
 ══════════════════════════════════ */
 function buildCertificate() {
   document.getElementById('cert-fname').textContent = firstName();
+  whenAssetsReady(() => {
   drawCertificate(document.getElementById('cert-canvas'), state.user, state.quadrant, state.scores);
 
   // Upload em segundo plano — não bloqueia a UI
@@ -619,6 +520,7 @@ function buildCertificate() {
       : null;
     if (url) state.certUrl = url;
   }, 'image/png');
+  });
 }
 
 function bindStep4() {
@@ -675,12 +577,35 @@ function bindStep4() {
 /* ══════════════════════════════════
    CANVAS — CERTIFICADO
 ══════════════════════════════════ */
+function _drawSeal(ctx, cx, cy, r) {
+  const SANS = "Inter, system-ui, sans-serif";
+  const g = ctx.createRadialGradient(cx - r * 0.35, cy - r * 0.35, r * 0.1, cx, cy, r);
+  g.addColorStop(0, '#f3dc94'); g.addColorStop(0.55, '#c9a84c'); g.addColorStop(1, '#8f7330');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = 'rgba(14,30,69,0.8)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.arc(cx, cy, r - 4, 0, Math.PI * 2); ctx.stroke();
+  const txt = 'DIAGNÓSTICO K.I.N.G. · NETWORKING IS KING · ';
+  const chars = Array.from(txt), step = (Math.PI * 2) / chars.length;
+  ctx.save(); ctx.translate(cx, cy);
+  ctx.fillStyle = '#0e1e45'; ctx.font = '700 7px ' + SANS; ctx.textAlign = 'center';
+  chars.forEach((ch, i) => { ctx.save(); ctx.rotate(i * step); ctx.fillText(ch, 0, -(r - 12)); ctx.restore(); });
+  ctx.restore();
+  const ir = r - 21;
+  ctx.fillStyle = '#0e1e45'; ctx.beginPath(); ctx.arc(cx, cy, ir, 0, Math.PI * 2); ctx.fill();
+  if (_imgCrown) {
+    const s = ir * 1.5, ratio = _imgCrown.naturalHeight / _imgCrown.naturalWidth || 1;
+    ctx.drawImage(_imgCrown, cx - s / 2, cy - (s * ratio) / 2, s, s * ratio);
+  } else {
+    ctx.fillStyle = '#e2c06a'; ctx.font = '28px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('♛', cx, cy + 1); ctx.textBaseline = 'alphabetic';
+  }
+}
+
 function drawCertificate(canvas, user, qd, scores) {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const W = 900, H = 640;
   canvas.width  = W * dpr;
   canvas.height = H * dpr;
-
   const dispW = Math.min(W, window.innerWidth - 48);
   canvas.style.width  = dispW + 'px';
   canvas.style.height = Math.round(dispW * H / W) + 'px';
@@ -688,159 +613,107 @@ function drawCertificate(canvas, user, qd, scores) {
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
-  /* ── background: navy da capa do livro ── */
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS  = "Inter, system-ui, sans-serif";
+  const GOLD = '#c9a84c', T1 = '#f2f2f2', T2 = '#c3cbe0', T3 = '#9aa8cc';
+  const spaced = (v) => { if ('letterSpacing' in ctx) ctx.letterSpacing = v; };
+  const king = qd.key === 'sg';
+
+  /* fundo navy da capa */
   const bg = ctx.createLinearGradient(0, 0, W, H);
-  bg.addColorStop(0,   '#0e1e45');
-  bg.addColorStop(0.5, '#152855');
-  bg.addColorStop(1,   '#0f2040');
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, W, H);
+  bg.addColorStop(0, '#0e1e45'); bg.addColorStop(1, '#152855');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  const vig = ctx.createRadialGradient(W * 0.35, H * 0.4, H * 0.2, W / 2, H / 2, W * 0.75);
+  vig.addColorStop(0, 'rgba(201,168,76,0.05)'); vig.addColorStop(1, 'rgba(4,10,28,0.5)');
+  ctx.fillStyle = vig; ctx.fillRect(0, 0, W, H);
 
-  /* vignette escuro nas bordas */
-  const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.25, W / 2, H / 2, W * 0.8);
-  vig.addColorStop(0, 'transparent');
-  vig.addColorStop(1, 'rgba(4, 10, 28, 0.55)');
-  ctx.fillStyle = vig;
-  ctx.fillRect(0, 0, W, H);
-
-  /* diagonal texture sutil */
-  ctx.strokeStyle = 'rgba(255,255,255,0.018)';
-  ctx.lineWidth = 1;
-  for (let i = -H; i < W; i += 22) {
-    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + H, H); ctx.stroke();
-  }
-
-  /* ── borders ── */
-  ctx.strokeStyle = '#c9a84c'; ctx.lineWidth = 2.5;
-  ctx.strokeRect(14, 14, W - 28, H - 28);
-  ctx.strokeStyle = 'rgba(201,168,76,0.22)'; ctx.lineWidth = 1;
-  ctx.strokeRect(22, 22, W - 44, H - 44);
-
-  /* ── corner ornaments ── */
-  [[32, 32, 'tl'], [W-32, 32, 'tr'], [32, H-32, 'bl'], [W-32, H-32, 'br']].forEach(([x, y, p]) => {
-    const s = 28;
-    ctx.strokeStyle = '#c9a84c'; ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    if (p === 'tl') { ctx.moveTo(x+s,y); ctx.lineTo(x,y); ctx.lineTo(x,y+s); }
-    if (p === 'tr') { ctx.moveTo(x-s,y); ctx.lineTo(x,y); ctx.lineTo(x,y+s); }
-    if (p === 'bl') { ctx.moveTo(x+s,y); ctx.lineTo(x,y); ctx.lineTo(x,y-s); }
-    if (p === 'br') { ctx.moveTo(x-s,y); ctx.lineTo(x,y); ctx.lineTo(x,y-s); }
-    ctx.stroke();
-    ctx.fillStyle = '#c9a84c';
-    ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill();
+  /* molduras */
+  ctx.strokeStyle = GOLD; ctx.lineWidth = 2; ctx.strokeRect(18, 18, W - 36, H - 36);
+  ctx.strokeStyle = 'rgba(201,168,76,0.3)'; ctx.lineWidth = 1; ctx.strokeRect(26, 26, W - 52, H - 52);
+  [[18, 18], [W - 18, 18], [18, H - 18], [W - 18, H - 18]].forEach(([x, y]) => {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(Math.PI / 4);
+    ctx.fillStyle = '#0e1e45'; ctx.fillRect(-7, -7, 14, 14);
+    ctx.strokeStyle = GOLD; ctx.lineWidth = 1.5; ctx.strokeRect(-7, -7, 14, 14);
+    ctx.fillStyle = GOLD; ctx.fillRect(-2.5, -2.5, 5, 5);
+    ctx.restore();
   });
 
-  /* ── crown ── */
-  ctx.font = '60px serif';
-  ctx.fillStyle = '#c9a84c';
-  ctx.textAlign = 'center';
-  /* gold glow atrás da coroa */
-  ctx.shadowColor = 'rgba(201,168,76,0.45)';
-  ctx.shadowBlur = 22;
-  ctx.fillText('♛', W / 2, 108);
-  ctx.shadowBlur = 0;
-
-  /* ── book name: estilo da capa — bold spaced ── */
-  ctx.font = 'bold 11px "Inter", Arial, sans-serif';
-  ctx.fillStyle = '#c9a84c';
-  ctx.textAlign = 'center';
-  ctx.letterSpacing = '0.25em';
-  ctx.fillText('NETWORKING  IS  KING', W / 2, 138);
-  ctx.letterSpacing = '0px';
-
-  /* divider */
-  const gd = (y) => {
-    const g = ctx.createLinearGradient(80, y, W-80, y);
-    g.addColorStop(0, 'transparent'); g.addColorStop(0.5, 'rgba(201,168,76,0.52)'); g.addColorStop(1, 'transparent');
-    return g;
-  };
-  ctx.strokeStyle = gd(150); ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(80, 150); ctx.lineTo(W-80, 150); ctx.stroke();
-
-  /* ── CERTIFICADO ── */
-  ctx.font = `bold 27px 'Playfair Display', Georgia, serif`;
-  ctx.fillStyle = '#c9a84c';
-  ctx.textAlign = 'center';
-  ctx.fillText('C E R T I F I C A D O', W / 2, 196);
-
-  /* "Certificamos que" */
-  ctx.font = 'italic 15px Georgia, serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.58)';
-  ctx.fillText('Certificamos que', W / 2, 236);
-
-  /* ── NAME ── */
-  ctx.font = `bold 40px 'Playfair Display', Georgia, serif`;
-  ctx.fillStyle = '#ffffff';
-  ctx.fillText(user.name, W / 2, 293);
-
-  /* underline */
-  const nw = ctx.measureText(user.name).width;
-  ctx.strokeStyle = gd(304); ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(W/2 - nw/2, 304); ctx.lineTo(W/2 + nw/2, 304); ctx.stroke();
-
-  /* "possui o perfil" */
-  ctx.font = 'italic 15px Georgia, serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.52)';
-  ctx.fillText('possui o perfil', W / 2, 338);
-
-  /* ── QUADRANT NAME ── */
-  ctx.font = `bold 25px 'Playfair Display', Georgia, serif`;
-  ctx.fillStyle = qd.color || '#c9a84c';
-  ctx.fillText(qd.name.toUpperCase(), W / 2, 375);
-
-  /* book reference */
-  ctx.font = 'italic 13px Georgia, serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.42)';
-  ctx.fillText('conforme diagnóstico do livro', W / 2, 412);
-
-  ctx.font = `bold 14px 'Playfair Display', Georgia, serif`;
-  ctx.fillStyle = '#c9a84c';
-  ctx.fillText('"Networking is King, A Atitude King"', W / 2, 436);
-
-  ctx.font = 'italic 13px Georgia, serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.42)';
-  ctx.fillText('por Cláudio Alcoforado · Networkaholic', W / 2, 458);
-
-  /* ── bottom divider ── */
-  ctx.strokeStyle = gd(480); ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(80, 480); ctx.lineTo(W-80, 480); ctx.stroke();
-
-  /* ── book cover (bottom-left) ── */
-  if (_imgBookCover) {
-    const covX = 30, covY = 488, covW = 42, covH = 56;
-    ctx.save();
-    ctx.beginPath(); ctx.roundRect(covX, covY, covW, covH, 2); ctx.clip();
-    ctx.drawImage(_imgBookCover, covX, covY, covW, covH);
-    ctx.restore();
-    ctx.strokeStyle = 'rgba(201,168,76,0.45)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.roundRect(covX, covY, covW, covH, 2); ctx.stroke();
-  }
-
-  /* ── date ── */
-  const date = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
-  ctx.font = '13px Georgia, serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.42)';
+  /* coluna de texto */
+  const X = 72;
   ctx.textAlign = 'left';
-  ctx.fillText(date, 90, 524);
+  ctx.fillStyle = GOLD; ctx.font = '600 11px ' + SANS; spaced('0.3em');
+  ctx.fillText('NETWORKING IS KING', X, 92); spaced('0px');
+  ctx.fillStyle = T1; ctx.font = '700 52px ' + SERIF; ctx.fillText('Certificado', X, 152);
+  ctx.fillStyle = T2; ctx.font = '400 15px ' + SANS; ctx.fillText('Diagnóstico K.I.N.G. de Networking', X, 182);
+  ctx.fillStyle = GOLD; ctx.fillRect(X, 204, 56, 2);
 
-  /* ── signature ── */
-  ctx.strokeStyle = 'rgba(201,168,76,0.32)'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(W-260, 516); ctx.lineTo(W-88, 516); ctx.stroke();
+  ctx.fillStyle = T2; ctx.font = 'italic 400 17px ' + SERIF; ctx.fillText('Certificamos que', X, 246);
+  let fs = 44; ctx.font = '700 ' + fs + 'px ' + SERIF;
+  while (ctx.measureText(user.name).width > 470 && fs > 22) { fs -= 2; ctx.font = '700 ' + fs + 'px ' + SERIF; }
+  ctx.fillStyle = T1; ctx.fillText(user.name, X, 298);
 
-  ctx.font = 'italic 17px Georgia, serif';
-  ctx.fillStyle = '#c9a84c';
-  ctx.textAlign = 'right';
-  ctx.fillText('Cláudio Alcoforado', W - 88, 513);
+  ctx.fillStyle = T2; ctx.font = '400 15px ' + SANS;
+  ctx.fillText('concluiu o Diagnóstico K.I.N.G. e conquistou o perfil', X, 336);
+  ctx.fillStyle = king ? GOLD : T1; ctx.font = '700 32px ' + SERIF; ctx.fillText(qd.name, X, 382);
+  ctx.fillStyle = T3; ctx.font = 'italic 400 15px ' + SERIF; ctx.fillText(qd.label, X, 408);
 
-  ctx.font = '12px Georgia, serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.42)';
-  ctx.fillText('Autor · Networkaholic', W - 88, 530);
+  /* painel do quadrante */
+  const PX = 592, PY = 72, PW = 236, PH = 304;
+  ctx.fillStyle = 'rgba(11,21,48,0.6)'; ctx.strokeStyle = 'rgba(201,168,76,0.28)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.roundRect(PX, PY, PW, PH, 6); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = GOLD; ctx.font = '600 9.5px ' + SANS; spaced('0.18em'); ctx.textAlign = 'left';
+  ctx.fillText('SEU QUADRANTE', PX + 22, PY + 30); spaced('0px');
 
-  /* ── ISBN ── */
+  const G = 150, gx = PX + 50, gy = PY + 46, gp = 3, cs = (G - gp) / 2;
+  [['ri', 0, 0], ['sg', 1, 0], ['is', 0, 1], ['ut', 1, 1]].forEach(([k, c, r]) => {
+    const on = k === qd.key, kk = k === 'sg';
+    ctx.fillStyle = kk ? (on ? 'rgba(201,168,76,0.32)' : 'rgba(201,168,76,0.12)') : (on ? '#1c3566' : '#132449');
+    ctx.beginPath(); ctx.roundRect(gx + c * (cs + gp), gy + r * (cs + gp), cs, cs, 3); ctx.fill();
+    if (on) { ctx.strokeStyle = kk ? GOLD : T3; ctx.lineWidth = 1; ctx.stroke(); }
+  });
+  ctx.fillStyle = GOLD; ctx.font = '12px serif'; ctx.textAlign = 'right';
+  ctx.fillText('♛', gx + G - 6, gy + 15);
   ctx.textAlign = 'center';
-  ctx.font = '10px monospace';
-  ctx.fillStyle = 'rgba(201,168,76,0.28)';
-  ctx.fillText('ISBN 978-65-01-90453-5  ·  networkingisking.net', W / 2, 570);
+  const dX = gx + ((scores.a - 6) / 24) * G, dY = gy + G - ((scores.b - 6) / 24) * G;
+  ctx.fillStyle = '#e2c06a'; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(dX, dY, 5.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = T3; ctx.font = '500 9px ' + SANS;
+  ctx.fillText('Intencionalidade →', gx + G / 2, gy + G + 16);
+  ctx.save(); ctx.translate(gx - 12, gy + G / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('Postura →', 0, 0); ctx.restore();
+
+  ctx.textAlign = 'left';
+  [['INTENCIONALIDADE', scores.a, PX + 22], ['POSTURA', scores.b, PX + 136]].forEach(([l, v, x]) => {
+    ctx.fillStyle = T3; ctx.font = '600 8.5px ' + SANS; spaced('0.12em'); ctx.fillText(l, x, PY + PH - 50); spaced('0px');
+    ctx.fillStyle = T1; ctx.font = '700 24px ' + SERIF; ctx.fillText(String(v), x, PY + PH - 22);
+    const vw = ctx.measureText(String(v)).width;
+    ctx.fillStyle = T3; ctx.font = '400 12px ' + SANS; ctx.fillText('/30', x + vw + 3, PY + PH - 22);
+  });
+
+  /* rodapé: capa + data · selo · assinatura */
+  const dv = ctx.createLinearGradient(X, 0, W - X, 0);
+  dv.addColorStop(0, 'rgba(201,168,76,0.55)'); dv.addColorStop(1, 'rgba(201,168,76,0.05)');
+  ctx.strokeStyle = dv; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(X, 452); ctx.lineTo(W - X, 452); ctx.stroke();
+
+  if (_imgBookCover) {
+    ctx.save(); ctx.beginPath(); ctx.roundRect(X, 486, 44, 59, 2); ctx.clip();
+    ctx.drawImage(_imgBookCover, X, 486, 44, 59); ctx.restore();
+  }
+  const date = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
+  ctx.textAlign = 'left';
+  ctx.fillStyle = T3; ctx.font = '400 11px ' + SANS; ctx.fillText('Emitido em', X + 60, 508);
+  ctx.fillStyle = T1; ctx.font = '600 15px ' + SERIF; ctx.fillText(date, X + 60, 530);
+
+  _drawSeal(ctx, W / 2, 522, 50);
+
+  ctx.textAlign = 'right';
+  ctx.fillStyle = GOLD; ctx.font = 'italic 400 24px ' + SERIF; ctx.fillText('Cláudio Alcoforado', W - X, 512);
+  ctx.strokeStyle = 'rgba(201,168,76,0.45)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(W - X - 220, 524); ctx.lineTo(W - X, 524); ctx.stroke();
+  ctx.fillStyle = T3; ctx.font = '400 11px ' + SANS; ctx.fillText('Autor · Networkaholic', W - X, 542);
+
+  ctx.textAlign = 'center'; ctx.fillStyle = T3; ctx.font = '400 10px ' + SANS; spaced('0.08em');
+  ctx.fillText('ISBN 978-65-01-90453-5  ·  networkingisking.net', W / 2, 600); spaced('0px');
 }
 
 /* ══════════════════════════════════
@@ -874,7 +747,7 @@ function dlCertPdf() {
 <title>Certificado KING - ${state.user.name}</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0d0d0d;display:flex;align-items:center;justify-content:center;min-height:100vh}
+body{background:#0b1530;display:flex;align-items:center;justify-content:center;min-height:100vh}
 img{width:100%;max-width:900px;display:block;margin:auto}
 @page{margin:0;size:landscape}
 @media print{body{padding:0}img{width:100%;max-width:100%}}
