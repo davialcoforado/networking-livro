@@ -4,11 +4,11 @@
 ════════════════════════════════════════════ */
 
 :root {
-  --bg-0:       #0a0a0a;
-  --bg-1:       #111111;
-  --bg-2:       #181818;
-  --bg-card:    #1e1e1e;
-  --border:     #2a2a2a;
+  --bg-0:       #0b1530;
+  --bg-1:       #0f1e40;
+  --bg-2:       #132449;
+  --bg-card:    #172d58;
+  --border:     #213e70;
   --gold:       #c9a84c;
   --gold-l:     #e2c06a;
   --gold-d:     #a8893a;
@@ -23,7 +23,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; scroll-behavior: smooth; }
+html { font-size: 17px; scroll-behavior: smooth; }
 
 body {
   background: var(--bg-0);
@@ -47,7 +47,7 @@ a:hover { color: var(--gold-l); }
 ───────────────────────── */
 .a-header {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(10, 10, 10, 0.96);
+  background: rgba(11, 21, 48, 0.97);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   padding: 12px 24px;
