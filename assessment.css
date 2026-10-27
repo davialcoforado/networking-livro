@@ -16,7 +16,7 @@ a:hover { color: var(--gold-l); }
 .gold { color: var(--gold); }
 
 /* HEADER */
-.a-header { position: sticky; top: 0; z-index: 100; background: rgba(15,30,65,.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.a-header { position: sticky; top: 0; z-index: 100; background: rgba(11,21,48,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .a-header-left { display: flex; align-items: center; gap: 14px; }
 .a-back-link { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: var(--r); color: var(--text-2); font-size: 14px; }
 .a-back-link:hover { color: var(--gold); border-color: var(--gold-d); }
