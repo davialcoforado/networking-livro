@@ -792,7 +792,7 @@ strong { font-weight: 600; color: var(--text-1); }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: rgba(10, 10, 10, 0.88);
+  background: rgba(11, 21, 48, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
@@ -801,7 +801,7 @@ strong { font-weight: 600; color: var(--text-1); }
 
 .navbar.scrolled {
   border-bottom-color: var(--border);
-  background: rgba(10, 10, 10, 0.97);
+  background: rgba(11, 21, 48, 0.97);
 }
 
 .navbar-inner {
