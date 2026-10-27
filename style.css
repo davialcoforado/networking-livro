@@ -1393,7 +1393,41 @@ strong { font-weight: 600; color: var(--text-1); }
 }
 
 .section-community {
-  background: var(--bg-1);
+  background: var(--gold);
+  color: #0b1530;
+}
+
+.section-community .section-tag {
+  color: #5a3e00;
+  border-color: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.section-community .section-title {
+  color: #0b1530;
+}
+
+.section-community .section-title .gold {
+  color: #3a2500;
+}
+
+.section-community .cta-sub {
+  color: #2a1a00;
+}
+
+.section-community .cta-note {
+  color: #5a3e00;
+}
+
+.section-community .btn-primary {
+  background: #0b1530;
+  color: var(--gold);
+  box-shadow: none;
+}
+
+.section-community .btn-primary:hover {
+  background: #172d58;
+  color: var(--gold-light);
 }
 
 .community-box {
@@ -1414,12 +1448,12 @@ strong { font-weight: 600; color: var(--text-1); }
 }
 
 .community-pills span {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 100px;
   padding: 7px 18px;
   font-size: 0.88rem;
-  color: var(--text-2);
+  color: #0b1530;
 }
 
 /* ═══════════════════════════════════════════
