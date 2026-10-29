@@ -95,7 +95,7 @@ function _loadImg(src) {
 
 async function preloadChartImages() {
   [_imgBookCover, _imgAuthor, _imgCrown] = await Promise.all([
-    _loadImg('../img/book-cover.jpg?v=20261028'),
+    _loadImg('../img/book-cover.jpg?v=20261029'),
     _loadImg('../img/author-claudio.png?v=20261028'),
     CROWN_SRC ? _loadImg(CROWN_SRC) : Promise.resolve(null)
   ]);
