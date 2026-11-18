@@ -18,10 +18,12 @@
     :root {
       --navy:   #0b1530;
       --navy-2: #0f1e40;
+      --navy-3: #142040;
       --gold:   #c9a84c;
       --gold-l: #e2c06a;
       --text-1: #f0f4ff;
       --text-2: #b8c4d8;
+      --text-3: #7a90b8;
     }
 
     html, body {
@@ -35,42 +37,92 @@
     body {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: env(safe-area-inset-top, 0px) 16px env(safe-area-inset-bottom, 24px);
       min-height: 100dvh;
     }
 
     /* ── Header ── */
-    .header {
+    .site-header {
       width: 100%;
-      max-width: 640px;
+      padding: env(safe-area-inset-top, 0px) 24px 0;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 20px 0 16px;
+      justify-content: center;
+      padding-top: max(env(safe-area-inset-top, 0px), 20px);
+      padding-bottom: 16px;
     }
 
     .logo {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
       text-decoration: none;
       color: var(--text-1);
       font-size: 0.95rem;
       font-weight: 600;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 8px 18px;
+      border-radius: 999px;
+      transition: background 0.2s;
+    }
+    .logo:hover { background: rgba(255,255,255,0.1); }
+    .logo .crown { color: var(--gold); font-size: 1.05rem; }
+
+    /* ── Main layout ── */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px 32px;
     }
 
-    .logo .crown { color: var(--gold); font-size: 1.1rem; }
-
-    /* ── Video ── */
-    .video-wrap {
+    /* Mobile: single column */
+    .page-grid {
       width: 100%;
-      max-width: 640px;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ── Phone frame (wraps video) ── */
+    .phone-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-frame {
+      width: 100%;
+      max-width: 360px;
+      background: #111827;
+      border-radius: 36px;
+      border: 2px solid rgba(255,255,255,0.12);
+      padding: 10px 10px 14px;
+      box-shadow:
+        0 32px 80px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(0,0,0,0.6),
+        inset 0 0 0 1px rgba(255,255,255,0.04),
+        0 0 60px rgba(201,168,76,0.07);
       position: relative;
-      background: #000;
-      border-radius: 12px;
+    }
+
+    /* notch indicator */
+    .phone-frame::before {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 5px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 999px;
+      margin: 0 auto 8px;
+    }
+
+    .phone-screen {
+      border-radius: 26px;
       overflow: hidden;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 60px rgba(201,168,76,0.08);
+      background: #000;
+      position: relative;
     }
 
     video {
@@ -81,7 +133,7 @@
     /* unmute overlay */
     .unmute-btn {
       position: absolute;
-      bottom: 56px;
+      bottom: 48px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(11,21,48,0.88);
@@ -95,39 +147,95 @@
       transition: opacity 0.3s;
       backdrop-filter: blur(8px);
     }
-
     .unmute-btn.hidden { display: none; }
 
-    /* ── Meta ── */
-    .meta {
-      width: 100%;
-      max-width: 640px;
-      padding: 20px 0 8px;
+    /* home indicator */
+    .phone-frame::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 4px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 999px;
+      margin: 10px auto 0;
     }
 
-    .meta h1 {
+    /* ── Info column ── */
+    .info-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .info-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.25);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      align-self: flex-start;
+    }
+
+    .info-h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.3rem, 5vw, 1.7rem);
-      line-height: 1.25;
-      margin-bottom: 6px;
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+      line-height: 1.2;
+      margin-bottom: 10px;
     }
 
-    .meta h1 .gold { color: var(--gold); }
+    .info-h1 .gold { color: var(--gold); }
 
-    .meta p {
+    .info-sub {
       font-size: 0.9rem;
       color: var(--text-2);
       line-height: 1.6;
+      margin-bottom: 24px;
     }
 
-    /* ── CTA ── */
+    /* book cover thumbnail — hidden on mobile, shown desktop */
+    .book-thumb {
+      display: none;
+    }
+
+    /* divider */
+    .info-divider {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      opacity: 0.4;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+
+    /* meta facts */
+    .info-facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      margin-bottom: 28px;
+    }
+
+    .info-fact {
+      font-size: 0.78rem;
+      color: var(--text-3);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .info-fact span { color: var(--text-2); font-weight: 500; }
+
+    /* CTAs */
     .cta-row {
-      width: 100%;
-      max-width: 640px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      padding: 20px 0 32px;
     }
 
     .btn-gold {
@@ -143,7 +251,6 @@
       text-decoration: none;
       transition: background 0.2s;
     }
-
     .btn-gold:hover { background: var(--gold-l); }
 
     .btn-outline {
@@ -160,69 +267,223 @@
       text-decoration: none;
       transition: color 0.2s, border-color 0.2s;
     }
-
     .btn-outline:hover { color: var(--text-1); border-color: rgba(184,196,216,0.5); }
 
     /* ── Footer ── */
     footer {
-      margin-top: auto;
-      padding: 16px 0 8px;
-      font-size: 0.75rem;
-      color: var(--text-2);
+      padding: 16px 16px max(env(safe-area-inset-bottom, 0px), 12px);
+      font-size: 0.72rem;
+      color: var(--text-3);
       text-align: center;
-      opacity: 0.6;
+    }
+
+    /* ═══════════════════════════════════════════════
+       DESKTOP layout (≥860px)
+       Two columns: phone+video LEFT | info RIGHT
+    ═══════════════════════════════════════════════ */
+    @media (min-width: 860px) {
+      body {
+        overflow: hidden;
+      }
+
+      main {
+        padding: 24px 48px;
+        overflow: hidden;
+      }
+
+      .page-grid {
+        max-width: 960px;
+        flex-direction: row;
+        align-items: center;
+        gap: 56px;
+        height: calc(100dvh - 120px);
+      }
+
+      /* left column: phone frame — altura limitada ao viewport */
+      .phone-wrap {
+        flex: 0 0 auto;
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      .phone-frame {
+        max-width: none;
+        width: auto;
+        height: min(calc(100dvh - 140px), 560px);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .phone-screen {
+        flex: 1;
+        min-height: 0;
+      }
+
+      video {
+        width: auto;
+        height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+      }
+
+      /* right column: info */
+      .info-col {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .info-badge {
+        margin-bottom: 20px;
+      }
+
+      .info-h1 {
+        font-size: clamp(2rem, 3vw, 2.8rem);
+        margin-bottom: 14px;
+      }
+
+      .info-sub {
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+
+      /* book thumbnail visible on desktop */
+      .book-thumb {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 24px;
+      }
+
+      .book-thumb img {
+        width: 80px;
+        border-radius: 4px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        flex-shrink: 0;
+      }
+
+      .book-thumb-info {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .book-thumb-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1rem;
+        line-height: 1.3;
+      }
+
+      .book-thumb-title .gold { color: var(--gold); }
+
+      .book-thumb-author {
+        font-size: 0.82rem;
+        color: var(--text-2);
+      }
+
+      .book-thumb-isbn {
+        font-size: 0.75rem;
+        color: var(--text-3);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .cta-row {
+        flex-direction: row;
+        gap: 12px;
+      }
+
+      .btn-gold, .btn-outline {
+        flex: 1;
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .page-grid {
+        gap: 72px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header class="header">
+  <header class="site-header">
     <a href="../" class="logo">
       <span class="crown">♛</span>
       <span>Networking is <strong>KING</strong></span>
     </a>
   </header>
 
-  <div class="video-wrap">
-    <video
-      id="vid"
-      src="../img/video-networking-is-king.mp4"
-      poster="../img/book-cover.jpg?v=20261029"
-      controls
-      playsinline
-      autoplay
-      muted
-      preload="auto"
-    ></video>
-    <button class="unmute-btn" id="unmute-btn">🔊 Ativar som</button>
-  </div>
+  <main>
+    <div class="page-grid">
 
-  <div class="meta">
-    <h1>Networking is <span class="gold">KING</span></h1>
-    <p>Cláudio Alcoforado · O poder dos relacionamentos para liderar, inovar e transformar resultados.</p>
-  </div>
+      <!-- Coluna esquerda: vídeo em moldura de celular -->
+      <div class="phone-wrap">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <video
+              id="vid"
+              src="../img/video-networking-is-king.mp4"
+              poster="../img/book-cover.jpg?v=20261029"
+              controls
+              playsinline
+              autoplay
+              muted
+              preload="auto"
+            ></video>
+            <button class="unmute-btn" id="unmute-btn">🔊 Ativar som</button>
+          </div>
+        </div>
+      </div>
 
-  <div class="cta-row">
-    <a href="../#fale-com-autor" class="btn-gold">♛ Garantir meu exemplar</a>
-    <a href="../" class="btn-outline">← Ver site completo</a>
-  </div>
+      <!-- Coluna direita: informações -->
+      <div class="info-col">
+        <div class="info-badge">♛ Networking is KING</div>
+
+        <h1 class="info-h1">O livro que vai<br>mudar como você<br>constrói <span class="gold">conexões</span></h1>
+
+        <p class="info-sub">Cláudio Alcoforado revela o método K.I.N.G. — o poder dos relacionamentos para liderar, inovar e transformar resultados.</p>
+
+        <!-- Book cover mini card (só desktop) -->
+        <div class="book-thumb">
+          <img src="../img/book-cover.jpg?v=20261029" alt="Capa do livro Networking is KING" />
+          <div class="book-thumb-info">
+            <div class="book-thumb-title">Networking is <span class="gold">KING</span></div>
+            <div class="book-thumb-author">Cláudio Alcoforado</div>
+            <div class="book-thumb-isbn">ISBN 978-65-01-90453-5</div>
+          </div>
+        </div>
+
+        <div class="info-divider"></div>
+
+        <div class="info-facts">
+          <div class="info-fact">Autor: <span>Cláudio Alcoforado</span></div>
+          <div class="info-fact">Lançamento: <span>Junho 2026</span></div>
+          <div class="info-fact">ISBN: <span>978-65-01-90453-5</span></div>
+        </div>
+
+        <div class="cta-row">
+          <a href="../#fale-com-autor" class="btn-gold">♛ Garantir meu exemplar</a>
+          <a href="../" class="btn-outline">← Ver site completo</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
 
   <footer>
-    <p>♛ Networking is KING · ISBN 978-65-01-90453-5 · networkingisking.net</p>
+    <p>♛ Networking is KING · networkingisking.net</p>
   </footer>
 
   <script>
     var vid = document.getElementById('vid');
     var btn = document.getElementById('unmute-btn');
 
-    // Unmute button
     btn.addEventListener('click', function() {
       vid.muted = false;
       vid.play();
       btn.classList.add('hidden');
     });
 
-    // If video starts with sound (user gesture already given), hide button
     vid.addEventListener('play', function() {
       if (!vid.muted) btn.classList.add('hidden');
     });
