@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Networking is KING — Cláudio Alcoforado</title>
+  <meta name="description" content="Assista ao vídeo de apresentação do livro Networking is KING de Cláudio Alcoforado." />
+  <link rel="icon" type="image/png" href="../img/favicon.png" />
+  <meta property="og:title" content="Networking is KING — Cláudio Alcoforado" />
+  <meta property="og:description" content="Assista ao vídeo de apresentação do livro." />
+  <meta property="og:image" content="https://networkingisking.net/img/book-cover.jpg?v=20261029" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0b1530;
+      --navy-2: #0f1e40;
+      --gold:   #c9a84c;
+      --gold-l: #e2c06a;
+      --text-1: #f0f4ff;
+      --text-2: #b8c4d8;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--navy);
+      color: var(--text-1);
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: env(safe-area-inset-top, 0px) 16px env(safe-area-inset-bottom, 24px);
+      min-height: 100dvh;
+    }
+
+    /* ── Header ── */
+    .header {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text-1);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .logo .crown { color: var(--gold); font-size: 1.1rem; }
+
+    /* ── Video ── */
+    .video-wrap {
+      width: 100%;
+      max-width: 640px;
+      position: relative;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 60px rgba(201,168,76,0.08);
+    }
+
+    video {
+      width: 100%;
+      display: block;
+    }
+
+    /* unmute overlay */
+    .unmute-btn {
+      position: absolute;
+      bottom: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(11,21,48,0.88);
+      border: 1px solid rgba(201,168,76,0.5);
+      color: var(--gold);
+      font: 600 0.85rem/1 'Inter', sans-serif;
+      padding: 10px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.3s;
+      backdrop-filter: blur(8px);
+    }
+
+    .unmute-btn.hidden { display: none; }
+
+    /* ── Meta ── */
+    .meta {
+      width: 100%;
+      max-width: 640px;
+      padding: 20px 0 8px;
+    }
+
+    .meta h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 5vw, 1.7rem);
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .meta h1 .gold { color: var(--gold); }
+
+    .meta p {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    /* ── CTA ── */
+    .cta-row {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px 0 32px;
+    }
+
+    .btn-gold {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--gold);
+      color: #0b1530;
+      font: 600 0.95rem/1 'Inter', sans-serif;
+      padding: 15px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-gold:hover { background: var(--gold-l); }
+
+    .btn-outline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text-2);
+      font: 500 0.9rem/1 'Inter', sans-serif;
+      padding: 13px 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(184,196,216,0.25);
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-outline:hover { color: var(--text-1); border-color: rgba(184,196,216,0.5); }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: auto;
+      padding: 16px 0 8px;
+      font-size: 0.75rem;
+      color: var(--text-2);
+      text-align: center;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="../" class="logo">
+      <span class="crown">♛</span>
+      <span>Networking is <strong>KING</strong></span>
+    </a>
+  </header>
+
+  <div class="video-wrap">
+    <video
+      id="vid"
+      src="../img/video-networking-is-king.mp4"
+      poster="../img/book-cover.jpg?v=20261029"
+      controls
+      playsinline
+      autoplay
+      muted
+      preload="auto"
+    ></video>
+    <button class="unmute-btn" id="unmute-btn">🔊 Ativar som</button>
+  </div>
+
+  <div class="meta">
+    <h1>Networking is <span class="gold">KING</span></h1>
+    <p>Cláudio Alcoforado · O poder dos relacionamentos para liderar, inovar e transformar resultados.</p>
+  </div>
+
+  <div class="cta-row">
+    <a href="../#fale-com-autor" class="btn-gold">♛ Garantir meu exemplar</a>
+    <a href="../" class="btn-outline">← Ver site completo</a>
+  </div>
+
+  <footer>
+    <p>♛ Networking is KING · ISBN 978-65-01-90453-5 · networkingisking.net</p>
+  </footer>
+
+  <script>
+    var vid = document.getElementById('vid');
+    var btn = document.getElementById('unmute-btn');
+
+    // Unmute button
+    btn.addEventListener('click', function() {
+      vid.muted = false;
+      vid.play();
+      btn.classList.add('hidden');
+    });
+
+    // If video starts with sound (user gesture already given), hide button
+    vid.addEventListener('play', function() {
+      if (!vid.muted) btn.classList.add('hidden');
+    });
+
+    vid.addEventListener('volumechange', function() {
+      if (!vid.muted) btn.classList.add('hidden');
+    });
+  </script>
+
+</body>
+</html>
