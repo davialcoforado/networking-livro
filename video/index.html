@@ -282,49 +282,32 @@
        Two columns: phone+video LEFT | info RIGHT
     ═══════════════════════════════════════════════ */
     @media (min-width: 860px) {
-      body {
-        overflow: hidden;
-      }
-
       main {
         padding: 24px 48px;
-        overflow: hidden;
       }
 
       .page-grid {
-        max-width: 960px;
+        max-width: 920px;
         flex-direction: row;
         align-items: center;
         gap: 56px;
-        height: calc(100dvh - 120px);
       }
 
-      /* left column: phone frame — altura limitada ao viewport */
+      /* left column: phone frame width = 240px */
       .phone-wrap {
         flex: 0 0 auto;
-        height: 100%;
-        display: flex;
-        align-items: center;
       }
 
       .phone-frame {
-        max-width: none;
-        width: auto;
-        height: min(calc(100dvh - 140px), 560px);
-        display: flex;
-        flex-direction: column;
+        width: 240px;
+        max-height: calc(100dvh - 160px);
+        overflow: hidden;
       }
 
-      .phone-screen {
-        flex: 1;
-        min-height: 0;
-      }
-
+      /* video fills phone width, natural portrait height */
       video {
-        width: auto;
-        height: 100%;
-        max-width: 100%;
-        object-fit: contain;
+        width: 100%;
+        height: auto;
       }
 
       /* right column: info */
