@@ -87,6 +87,8 @@
       whatsapp: user.whatsapp || null,
       city: user.city || null,
       country: user.country || null,
+      company: user.company || null,
+      role: user.role || null,
       source: 'assessment',
       quadrant_key: quadrant.key || null,
       quadrant_name: quadrant.name,

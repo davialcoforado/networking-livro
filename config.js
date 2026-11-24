@@ -26,9 +26,12 @@
      name                   text        not null,
      email                  text        not null,
      whatsapp               text,
+     city                   text,
      country                text,
      state                  text,
      zip                    text,
+     company                text,
+     role                   text,
      source                 text        not null default 'landing',
      quadrant_key           text,
      quadrant_name          text,
@@ -36,6 +39,11 @@
      score_postura          integer,
      answers                jsonb
    );
+
+   -- Se a tabela já existe, rode apenas este bloco para adicionar as novas colunas:
+   -- alter table leads add column if not exists city    text;
+   -- alter table leads add column if not exists company text;
+   -- alter table leads add column if not exists role    text;
 
    alter table leads enable row level security;
 

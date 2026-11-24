@@ -224,7 +224,9 @@ function bindStep1() {
       email:    document.getElementById('f-email').value.trim(),
       whatsapp: document.getElementById('f-whatsapp').value.trim(),
       city:     document.getElementById('f-city').value.trim(),
-      country:  document.getElementById('f-country').value.trim()
+      country:  document.getElementById('f-country').value.trim(),
+      company:  document.getElementById('f-company').value.trim(),
+      role:     document.getElementById('f-role').value.trim()
     };
 
     goToStep(2);
@@ -712,7 +714,10 @@ function drawCertificate(canvas, user, qd, scores) {
   ctx.beginPath(); ctx.moveTo(W - X - 220, 524); ctx.lineTo(W - X, 524); ctx.stroke();
   ctx.fillStyle = T3; ctx.font = '400 11px ' + SANS; ctx.fillText('Autor · Networkaholic', W - X, 542);
 
-  ctx.textAlign = 'center'; ctx.fillStyle = T3; ctx.font = '400 10px ' + SANS; spaced('0.08em');
+  ctx.textAlign = 'center'; ctx.fillStyle = T3; ctx.font = 'italic 400 9.5px ' + SANS;
+  ctx.fillText('Os resultados apresentados refletem o conteúdo das respostas dadas pelo respondente.', W / 2, 572);
+
+  ctx.fillStyle = T3; ctx.font = '400 10px ' + SANS; spaced('0.08em');
   ctx.fillText('ISBN 978-65-01-90453-5  ·  networkingisking.net', W / 2, 600); spaced('0px');
 }
 
